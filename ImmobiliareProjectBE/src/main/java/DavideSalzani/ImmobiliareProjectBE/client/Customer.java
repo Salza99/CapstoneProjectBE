@@ -3,6 +3,7 @@ package DavideSalzani.ImmobiliareProjectBE.client;
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.request.Request;
 import DavideSalzani.ImmobiliareProjectBE.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
     private String surname;
@@ -31,5 +32,6 @@ public class Customer {
     @OneToOne
     private Request request;
     @ManyToOne
+    @JsonIgnore
     private User followedByUser;
 }

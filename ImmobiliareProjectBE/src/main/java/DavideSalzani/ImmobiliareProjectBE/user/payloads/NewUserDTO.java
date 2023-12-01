@@ -18,7 +18,7 @@ public record NewUserDTO(
         @NotEmpty(message = "il campo telefono deve essere valorizzato!")
         @Pattern(regexp = "^\\+?\\d{1,3}(\\s*\\d){7,}$", message = "inserisci un numero di telefono valido!")
         String phone,
-        @NotEmpty(message = "il campo data di nascita deve essere valorizzato!")
+
         LocalDate birthDay,
         @NotEmpty(message = "il campo username deve essere valorizzato!")
         @Size(min = 3, message = "il campo username deve contenere almeno 3 caratteri")

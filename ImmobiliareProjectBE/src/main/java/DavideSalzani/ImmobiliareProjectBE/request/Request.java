@@ -2,6 +2,7 @@ package DavideSalzani.ImmobiliareProjectBE.request;
 
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.CommonRequestEstate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +30,6 @@ public class Request extends CommonRequestEstate {
     private List<String> hamlets;
     private ArrayList<Long> rangeOfPrice = new ArrayList<>(2);
     @OneToOne
+    @JsonIgnore
     private Customer customer;
 }

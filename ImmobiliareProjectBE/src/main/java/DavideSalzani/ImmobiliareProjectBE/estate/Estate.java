@@ -4,6 +4,7 @@ import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.CommonRequestEstate;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.Heating;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,8 @@ public class Estate extends CommonRequestEstate {
     @OneToOne
     private Address address;
     @ManyToOne
+    @JsonIgnore
     private Customer customer;
+    @ManyToOne
     private Heating heating;
 }

@@ -1,7 +1,27 @@
 package DavideSalzani.ImmobiliareProjectBE.authorization;
 
-import org.springframework.web.bind.annotation.RestController;
+import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
+import DavideSalzani.ImmobiliareProjectBE.user.User;
+import DavideSalzani.ImmobiliareProjectBE.user.payloads.NewUserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthController {
+    @Autowired
+    AuthService authService;
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public User saveUser(@RequestBody @Validated NewUserDTO body, BindingResult validation) {
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        } else {
+            return authService.save(body);
+        }
+    }
 }

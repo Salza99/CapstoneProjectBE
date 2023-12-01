@@ -34,7 +34,7 @@ public class User implements UserDetails {
     private LocalDate birthDay;
     private LocalDate insertDate;
     private UserRole role;
-    @OneToMany(mappedBy = "id")
+    @OneToMany()
     private List<Customer> customersFollowed;
 
     @Override
