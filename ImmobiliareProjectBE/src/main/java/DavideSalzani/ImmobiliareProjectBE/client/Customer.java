@@ -3,10 +3,7 @@ package DavideSalzani.ImmobiliareProjectBE.client;
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.request.Request;
 import DavideSalzani.ImmobiliareProjectBE.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +26,10 @@ public class Customer {
     private String email;
     private Long phone;
     private LocalDate birthDay;
+    @OneToMany(mappedBy = "id")
     private List<Estate> sellingProperties;
+    @OneToOne
     private Request request;
+    @ManyToOne
     private User followedByUser;
 }

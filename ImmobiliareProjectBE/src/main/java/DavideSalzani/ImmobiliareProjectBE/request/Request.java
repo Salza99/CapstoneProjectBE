@@ -1,10 +1,8 @@
 package DavideSalzani.ImmobiliareProjectBE.request;
 
+import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.CommonRequestEstate;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +28,6 @@ public class Request extends CommonRequestEstate {
     private List<String> cities;
     private List<String> hamlets;
     private ArrayList<Long> rangeOfPrice = new ArrayList<>(2);
+    @OneToOne
+    private Customer customer;
 }

@@ -3,10 +3,7 @@ package DavideSalzani.ImmobiliareProjectBE.user;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.request.Request;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +19,6 @@ import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class User implements UserDetails {
@@ -38,6 +34,7 @@ public class User implements UserDetails {
     private LocalDate birthDay;
     private LocalDate insertDate;
     private UserRole role;
+    @OneToMany(mappedBy = "id")
     private List<Customer> customersFollowed;
 
     @Override
@@ -63,5 +60,16 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(String username, String password, String name, String surname, String email, Long phone, LocalDate birthDay, LocalDate insertDate) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.birthDay = birthDay;
+        this.insertDate = insertDate;
     }
 }
