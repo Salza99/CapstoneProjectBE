@@ -1,5 +1,6 @@
 package DavideSalzani.ImmobiliareProjectBE.user;
 
+import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.request.Request;
 import jakarta.persistence.Entity;
@@ -36,9 +37,8 @@ public class User implements UserDetails {
     private Long phone;
     private LocalDate birthDay;
     private LocalDate insertDate;
-    private List<Estate> sellingProperties;
-    private Request request;
     private UserRole role;
+    private List<Customer> customersFollowed;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
