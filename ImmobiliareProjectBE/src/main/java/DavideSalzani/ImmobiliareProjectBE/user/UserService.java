@@ -32,5 +32,9 @@ public class UserService {
         User found = this.getById(id);
         userRepo.delete(found);
     }
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(username));
+    }
 
 }

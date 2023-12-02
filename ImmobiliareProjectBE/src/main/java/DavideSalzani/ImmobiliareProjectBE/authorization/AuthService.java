@@ -1,12 +1,16 @@
 package DavideSalzani.ImmobiliareProjectBE.authorization;
 
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
+import DavideSalzani.ImmobiliareProjectBE.exceptions.NotFoundException;
+import DavideSalzani.ImmobiliareProjectBE.exceptions.UnauthorizedException;
 import DavideSalzani.ImmobiliareProjectBE.mailSenderConfig.MailSenderConfig;
 import DavideSalzani.ImmobiliareProjectBE.mailSenderConfig.MailSenderService;
+import DavideSalzani.ImmobiliareProjectBE.security.JWTTools;
 import DavideSalzani.ImmobiliareProjectBE.user.User;
 import DavideSalzani.ImmobiliareProjectBE.user.UserRepository;
 import DavideSalzani.ImmobiliareProjectBE.user.UserRole;
 import DavideSalzani.ImmobiliareProjectBE.user.payloads.NewUserDTO;
+import DavideSalzani.ImmobiliareProjectBE.user.payloads.UserLoginDTO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +27,11 @@ public class AuthService {
     @Autowired
     UserRepository userRepo;
     @Autowired
-    PasswordEncoder byCrypt;
+    PasswordEncoder bCrypt;
     @Autowired
     MailSenderService mailSenderService;
+    @Autowired
+    JWTTools jwtTools;
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
 
     public String generateRandomPassword(int length) {
@@ -39,13 +45,21 @@ public class AuthService {
 
         return sb.toString();
     }
+    public String authenticateUser(UserLoginDTO body) {
+        User user = userRepo.findByUsername(body.username()).orElseThrow(() -> new NotFoundException("utente "));
+        if (bCrypt.matches(body.password(), user.getPassword())) {
+            return jwtTools.createToken(user);
+        } else {
+            throw new UnauthorizedException("Username o password invalido.");
+        }
+    }
     public User save(NewUserDTO body) {
         userRepo.findByEmail(body.email()).ifPresent(a -> {
             throw new BadRequestException("l'email " + a.getEmail() + " è già stata usata");
         });
         User user;
         String newPassword = generateRandomPassword(8);
-        String encryptedPassword = byCrypt.encode(newPassword);
+        String encryptedPassword = bCrypt.encode(newPassword);
         String htmlBody = "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "  <head>\n" +
@@ -93,10 +107,11 @@ public class AuthService {
 
             mailSenderService.sendHtmlEmail(body.email(), "Nuova password generata", htmlBody );
 
-        byCrypt.encode(newPassword);
+        bCrypt.encode(newPassword);
         user = new User(body.username(), encryptedPassword, body.name(), body.surname(), body.email(), Long.parseLong(body.phone()),body.birthDay(), LocalDate.now());
         user.setRole(UserRole.SUPER_ADMIN);
         return userRepo.save(user);
     }
+
 
 }
