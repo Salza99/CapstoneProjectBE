@@ -19,7 +19,7 @@ import java.util.UUID;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private long id;
     private String region;
     private String city;
     private String hamlet;
