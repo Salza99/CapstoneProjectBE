@@ -4,6 +4,10 @@ import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.address.payloads.NewAddressDTO;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.*;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.characteristicsValidator.ValidOtherCharacteristics;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.conditionValidator.ValidCondition;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.energyValidator.ValidEnergyClass;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.typeOfPropertyValidator.ValidTypeOfProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -22,10 +26,13 @@ public record NewEstateDTO(
         boolean isToRent,
         boolean habitability,
         List<String> numberOfRooms,
+        @ValidEnergyClass(enumClass = EnergyClass.class, message = "devi inserire una classe energetica valida")
         String energyClass,
+        @ValidCondition(enumClass = Condition.class, message = "devi inserire un volore di condizioni valido")
         String condition,
+        @ValidTypeOfProperty(enumClass = TypeOfProperty.class, message = "devi inserire un tipo di proprietà valido")
         String typeOfProperty,
-        String otherCharacteristics,
+        List<String> otherCharacteristics,
         String floor,
         @NotEmpty(message = "il campo anno di costruzione non può essere lasciato vuoto")
         String yearOfConstruction,

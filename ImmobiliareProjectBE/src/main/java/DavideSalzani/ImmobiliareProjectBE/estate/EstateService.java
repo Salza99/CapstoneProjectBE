@@ -61,8 +61,9 @@ public class EstateService {
         e.setCondition(c);
         TypeOfProperty t = TypeOfProperty.valueOf(body.typeOfProperty());
         e.setTypeOfProperty(t);
-        OtherCharacteristics o = OtherCharacteristics.valueOf(body.otherCharacteristics());
-        e.setOtherCharacteristics(o);
+        for (String otherCharacteristic: body.otherCharacteristics()) {
+            e.getOtherCharacteristics().add(otherCharacteristic);
+        }
         e.setFloor(Integer.parseInt(body.floor()));
         e.setYearOfConstruction(Integer.parseInt(body.yearOfConstruction()));
         e.setCondominiumFees(Integer.parseInt(body.condominiumFees()));

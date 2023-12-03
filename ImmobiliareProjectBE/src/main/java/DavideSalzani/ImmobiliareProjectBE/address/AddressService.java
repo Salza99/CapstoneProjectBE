@@ -21,7 +21,7 @@ public class AddressService {
     }
     public Address createAddress(NewAddressDTO body){
         if (addressRepo.findByHouseNumber(body.houseNumber()) == null){
-            Address a = new Address(body.region(), body.city(), body.hamlet(), body.postalCode(), body.street(), body.houseNumber());
+            Address a = new Address();
             a.setRegion(body.region());
             a.setCity(body.city());
             a.setHamlet(body.hamlet());

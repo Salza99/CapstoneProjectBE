@@ -23,5 +23,5 @@ public abstract class CommonRequestEstate {
     private EnergyClass energyClass;
     private Condition condition;
     private TypeOfProperty typeOfProperty;
-    private OtherCharacteristics otherCharacteristics;
+    private List<String> otherCharacteristics;
 }
