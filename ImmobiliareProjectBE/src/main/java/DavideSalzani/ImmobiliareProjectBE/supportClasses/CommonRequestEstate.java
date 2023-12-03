@@ -6,6 +6,7 @@ import jakarta.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -18,7 +19,7 @@ public abstract class CommonRequestEstate {
     private int parkingSpace;
     private boolean isToRent;
     private boolean habitability;
-    private List<Rooms> numberOfRooms;
+    private List<String> numberOfRooms = new ArrayList<>();
     private EnergyClass energyClass;
     private Condition condition;
     private TypeOfProperty typeOfProperty;

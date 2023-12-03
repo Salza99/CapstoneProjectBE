@@ -31,12 +31,12 @@ public class ExceptionHandler {
     }
     @org.springframework.web.bind.annotation.ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorsResponseDTO handleAccesDenied(AccessDeniedException e) {
+    public ErrorsResponseDTO handleAccessDenied(AccessDeniedException e) {
         return new ErrorsResponseDTO(e.getMessage(), LocalDate.now());
     }
     @org.springframework.web.bind.annotation.ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public ErrorsResponseDTO handleAnauthorized(HttpRequestMethodNotSupportedException e) {
+    public ErrorsResponseDTO handleUnauthorized(HttpRequestMethodNotSupportedException e) {
         return new ErrorsResponseDTO(e.getMessage(), LocalDate.now());
     }
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
@@ -44,5 +44,11 @@ public class ExceptionHandler {
     public ErrorsResponseDTO handleGeneric(Exception e) {
         e.printStackTrace();
         return new ErrorsResponseDTO("we are sorry at the moment we have some internal problems, we are trying to resolve them", LocalDate.now());
+    }
+    @org.springframework.web.bind.annotation.ExceptionHandler(AlreadyExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsResponseDTO handleAlreadyExist(AlreadyExistException e) {
+
+        return new ErrorsResponseDTO(e.getMessage(), LocalDate.now());
     }
 }

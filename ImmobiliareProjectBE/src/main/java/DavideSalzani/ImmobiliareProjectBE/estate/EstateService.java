@@ -1,7 +1,12 @@
 package DavideSalzani.ImmobiliareProjectBE.estate;
 
+import DavideSalzani.ImmobiliareProjectBE.address.Address;
+import DavideSalzani.ImmobiliareProjectBE.address.AddressService;
+import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.client.CustomerService;
 import DavideSalzani.ImmobiliareProjectBE.estate.payloads.NewEstateDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.NotFoundException;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.*;
 import DavideSalzani.ImmobiliareProjectBE.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +22,10 @@ import java.util.UUID;
 public class EstateService {
     @Autowired
     EstateRepository estateRepo;
+    @Autowired
+    AddressService addressService;
+    @Autowired
+    CustomerService customerService;
 
     public Estate getById(UUID id){
         return estateRepo.findById(id).orElseThrow(() -> new NotFoundException("Proprietà "));
@@ -33,6 +42,36 @@ public class EstateService {
         estateRepo.delete(found);
     }
     public Estate createEstate(NewEstateDTO body){
-        return null;
+        Address aFound = addressService.findById(body.addressId());
+        Customer cFound = customerService.findSingleCustomer(body.customerId());
+
+        Estate e = new Estate();
+        e.setSurface(Integer.parseInt(body.surface()));
+        e.setNumberOfFloors(Integer.parseInt(body.numberOfFloors()));
+        e.setNumberOfBathrooms(Integer.parseInt(body.numberOfBathrooms()));
+        e.setParkingSpace(Integer.parseInt(body.parkingSpace()));
+        e.setToRent(body.isToRent());
+        e.setHabitability(body.habitability());
+        for (String room: body.numberOfRooms()) {
+            e.getNumberOfRooms().add(room);
+        }
+        EnergyClass en = EnergyClass.valueOf(body.energyClass());
+        e.setEnergyClass(en);
+        Condition c = Condition.valueOf(body.condition());
+        e.setCondition(c);
+        TypeOfProperty t = TypeOfProperty.valueOf(body.typeOfProperty());
+        e.setTypeOfProperty(t);
+        OtherCharacteristics o = OtherCharacteristics.valueOf(body.otherCharacteristics());
+        e.setOtherCharacteristics(o);
+        e.setFloor(Integer.parseInt(body.floor()));
+        e.setYearOfConstruction(Integer.parseInt(body.yearOfConstruction()));
+        e.setCondominiumFees(Integer.parseInt(body.condominiumFees()));
+        e.setPrice(Long.parseLong(body.price()));
+        e.setAvailability(body.availability());
+        e.setAddress(aFound);
+        e.setCustomer(cFound);
+        e.setHeating(body.heating());
+        estateRepo.save(e);
+        return e;
     }
 }
