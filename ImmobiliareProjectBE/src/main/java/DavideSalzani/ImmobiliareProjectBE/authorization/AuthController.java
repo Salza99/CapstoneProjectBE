@@ -3,6 +3,8 @@ package DavideSalzani.ImmobiliareProjectBE.authorization;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import DavideSalzani.ImmobiliareProjectBE.user.User;
 import DavideSalzani.ImmobiliareProjectBE.user.payloads.NewUserDTO;
+import DavideSalzani.ImmobiliareProjectBE.user.payloads.UserLoginDTO;
+import DavideSalzani.ImmobiliareProjectBE.user.payloads.UserSuccessLoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -23,5 +25,9 @@ public class AuthController {
         } else {
             return authService.save(body);
         }
+    }
+    @PostMapping("/login")
+    public UserSuccessLoginDTO login(@RequestBody UserLoginDTO body) throws Exception {
+        return new UserSuccessLoginDTO(authService.authenticateUser(body));
     }
 }
