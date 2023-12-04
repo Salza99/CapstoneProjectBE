@@ -39,10 +39,10 @@ public class AddressController {
     public Address getSingleAddress(long id){
         return addressService.findById(id);
     }
-    @DeleteMapping("")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAddress(long id){
+    public void deleteAddress(@PathVariable("id") long id){
         addressService.delete(id);
     }
 }

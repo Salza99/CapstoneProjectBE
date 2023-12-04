@@ -1,18 +1,13 @@
 package DavideSalzani.ImmobiliareProjectBE.request.payloads;
 
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Condition;
-import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.EnergyClass;
-import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.TypeOfProperty;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.conditionValidator.ValidCondition;
-import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.energyValidator.ValidEnergyClass;
-import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.typeOfPropertyValidator.ValidTypeOfProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
-import java.util.UUID;
 
-public record NewRequestDTO(
+public record ChangeRequestInfoDTO(
         @NotEmpty(message = "inserisci almeno un valore per la superfice")
         List<Double> surface,
 
@@ -37,7 +32,6 @@ public record NewRequestDTO(
         @NotEmpty(message = "devi inserire almeno una città")
         List<String> cities,
         List<String> hamlets,
-        String note,
-        UUID customerId
+        String note
 ) {
 }

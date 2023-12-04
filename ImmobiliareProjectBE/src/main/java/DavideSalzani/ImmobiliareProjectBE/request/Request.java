@@ -23,13 +23,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Request extends CommonRequestEstate {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private List<String> regions;
     private List<String> cities;
     private List<String> hamlets;
     private List<Double> surface= new ArrayList<>(2);
-    private List<Integer> numberOfFloors= new ArrayList<>(2);
     private List<Integer> numberOfBathrooms= new ArrayList<>(2);
     private List<Integer> parkingSpace = new ArrayList<>(2);
     private List<String> typeOfProperty;

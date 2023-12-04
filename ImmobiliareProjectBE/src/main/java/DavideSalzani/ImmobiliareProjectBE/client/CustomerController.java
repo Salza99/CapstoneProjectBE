@@ -49,10 +49,10 @@ public class CustomerController {
             throw new BadRequestException(validation.getAllErrors());
         }else {return customerService.changeInfo(id, body);}
     }
-    @DeleteMapping("")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCustomer(UUID id){
+    public void deleteCustomer(@PathVariable("id") UUID id){
         customerService.deleteCustomer(id);
     }
 }

@@ -2,8 +2,10 @@ package DavideSalzani.ImmobiliareProjectBE.request;
 
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.client.CustomerService;
+import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.NotFoundException;
+import DavideSalzani.ImmobiliareProjectBE.request.payloads.ChangeRequestInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.request.payloads.NewRequestDTO;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Condition;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.EnergyClass;
@@ -23,7 +25,7 @@ public class RequestService {
     public List<Request> getAll(){
         return requestRepo.findAll();
     }
-    public Request getById(UUID id){
+    public Request getById(long id){
         return requestRepo.findById(id).orElseThrow(() -> new NotFoundException("richiesta "));
     }
     public Request createNewRequest(NewRequestDTO body){
@@ -31,7 +33,6 @@ public class RequestService {
         Customer found = customerService.findSingleCustomer(body.customerId());
         if (found.getRequest() == null) {
             r.setSurface(body.surface());
-            r.setNumberOfFloors(body.numberOfFloors());
             r.setNumberOfBathrooms(body.numberOfBathrooms());
             r.setNumberOfRooms(body.numberOfRooms());
             r.setParkingSpace(body.parkingSpace());
@@ -51,8 +52,32 @@ public class RequestService {
             requestRepo.save(r);
             return r;
         }else {
-            throw new BadRequestException("il cliente possiede già una richiesta a suo carico, eliminare o aggiornare quest'ultima per poter continuare!")
+            throw new BadRequestException("il cliente possiede già una richiesta a suo carico, eliminare o aggiornare quest'ultima per poter continuare!");
         }
-
+    }
+    public Request changeRequestInfo(long id, ChangeRequestInfoDTO body){
+        Request toUpdate = this.getById(id);
+        toUpdate.setSurface(body.surface());
+        toUpdate.setNumberOfBathrooms(body.numberOfBathrooms());
+        toUpdate.setParkingSpace(body.parkingSpace());
+        toUpdate.setToRent(body.isToRent());
+        toUpdate.setHabitability(body.habitability());
+        toUpdate.setNumberOfRooms(body.numberOfRooms());
+        Condition c = Condition.valueOf(body.condition());
+        toUpdate.setCondition(c);
+        toUpdate.setTypeOfProperty(body.typeOfProperty());
+        toUpdate.setOtherCharacteristics(body.otherCharacteristics());
+        toUpdate.setCondominiumFees(body.condominiumFees());
+        toUpdate.setRangeOfPrice(body.price());
+        toUpdate.setRegions(body.regions());
+        toUpdate.setCities(body.cities());
+        toUpdate.setHamlets(body.hamlets());
+        toUpdate.setNote(body.note());
+        requestRepo.save(toUpdate);
+        return toUpdate;
+    }
+    public void delete(long id){
+        Request toRemove = this.getById(id);
+        requestRepo.delete(toRemove);
     }
 }

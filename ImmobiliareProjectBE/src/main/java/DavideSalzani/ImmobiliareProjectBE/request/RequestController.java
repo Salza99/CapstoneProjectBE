@@ -2,6 +2,7 @@ package DavideSalzani.ImmobiliareProjectBE.request;
 
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
+import DavideSalzani.ImmobiliareProjectBE.request.payloads.ChangeRequestInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.request.payloads.NewRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,23 @@ public class RequestController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public Request getSingleRequest(UUID id){
+    public Request getSingleRequest(long id){
         return requestService.getById(id);
+    }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public Request updateRequest(@PathVariable("id") long id, @RequestBody @Validated ChangeRequestInfoDTO body, BindingResult validation){
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        }else {
+            return requestService.changeRequestInfo(id, body);
+        }
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRequest(@PathVariable("id") long id){
+        requestService.delete(id);
     }
 }
