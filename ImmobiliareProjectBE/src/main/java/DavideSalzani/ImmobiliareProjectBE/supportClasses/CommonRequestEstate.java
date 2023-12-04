@@ -18,8 +18,8 @@ public abstract class CommonRequestEstate {
     private boolean habitability;
     private double condominiumFees;
     private List<String> numberOfRooms = new ArrayList<>();
-    private EnergyClass energyClass;
+
     private Condition condition;
-    private TypeOfProperty typeOfProperty;
+
     private List<String> otherCharacteristics;
 }

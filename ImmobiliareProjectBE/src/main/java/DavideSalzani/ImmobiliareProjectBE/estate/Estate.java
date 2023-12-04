@@ -3,6 +3,8 @@ package DavideSalzani.ImmobiliareProjectBE.estate;
 import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.CommonRequestEstate;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.EnergyClass;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.TypeOfProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,8 @@ public class Estate extends CommonRequestEstate {
     private int numberOfBathrooms;
     private int parkingSpace;
     private int yearOfConstruction;
+    private EnergyClass energyClass;
+    private TypeOfProperty typeOfProperty;
     private long price;
     private String description;
     private boolean availability;

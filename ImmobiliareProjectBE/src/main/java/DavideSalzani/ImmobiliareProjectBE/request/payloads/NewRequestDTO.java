@@ -26,12 +26,10 @@ public record NewRequestDTO(
         @NotNull(message = "devi dichiarare se la proprietà è abitabile o no!")
         boolean habitability,
         List<String> numberOfRooms,
-        @ValidEnergyClass(enumClass = EnergyClass.class, message = "devi inserire una classe energetica valida")
-        String energyClass,
         @ValidCondition(enumClass = Condition.class, message = "devi inserire un volore di condizioni valido")
         String condition,
-        @ValidTypeOfProperty(enumClass = TypeOfProperty.class, message = "devi inserire un tipo di proprietà valido")
-        String typeOfProperty,
+
+        List<String> typeOfProperty,
         List<String> otherCharacteristics,
         Double condominiumFees,
         @NotEmpty(message = "devi inserire almeno un valore di massimale spesa")
