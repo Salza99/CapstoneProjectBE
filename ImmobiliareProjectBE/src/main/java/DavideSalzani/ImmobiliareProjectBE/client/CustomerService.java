@@ -1,5 +1,7 @@
 package DavideSalzani.ImmobiliareProjectBE.client;
 
+import DavideSalzani.ImmobiliareProjectBE.address.Address;
+import DavideSalzani.ImmobiliareProjectBE.client.payload.ChangeCustomerInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.client.payload.NewCustomerDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.AlreadyExistException;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
@@ -46,7 +48,18 @@ public class CustomerService {
 
                 return c;
             }
-
         }
+    }
+    public Customer changeInfo(UUID id, ChangeCustomerInfoDTO body) {
+        Customer toUpdate = this.findSingleCustomer(id);
+        toUpdate.setEmail(body.email());
+        toUpdate.setPhone(Long.parseLong(body.phone()));
+        toUpdate.setBirthDay(body.birthdate());
+        customerRepo.save(toUpdate);
+        return toUpdate;
+    }
+    public void deleteCustomer(UUID id) {
+        Customer toDelete = this.findSingleCustomer(id);
+        customerRepo.delete(toDelete);
     }
 }

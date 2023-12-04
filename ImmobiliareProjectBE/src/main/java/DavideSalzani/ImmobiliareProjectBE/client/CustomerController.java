@@ -1,5 +1,6 @@
 package DavideSalzani.ImmobiliareProjectBE.client;
 
+import DavideSalzani.ImmobiliareProjectBE.client.payload.ChangeCustomerInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.client.payload.NewCustomerDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,19 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public Customer getSingleAddress(UUID id){
         return customerService.findSingleCustomer(id);
+    }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public Customer changeUserInfo(@PathVariable("id") UUID id, @RequestBody @Validated ChangeCustomerInfoDTO body, BindingResult validation){
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        }else {return customerService.changeInfo(id, body);}
+    }
+    @DeleteMapping("")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCustomer(UUID id){
+        customerService.deleteCustomer(id);
     }
 }

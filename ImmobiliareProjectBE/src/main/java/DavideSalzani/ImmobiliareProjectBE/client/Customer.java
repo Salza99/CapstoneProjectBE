@@ -30,8 +30,10 @@ public class Customer {
     private Long phone;
     private LocalDate birthDay;
     @OneToMany(mappedBy = "customer")
+    @Cascade(CascadeType.ALL)
     private List<Estate> sellingProperties;
     @OneToOne
+    @Cascade(CascadeType.ALL)
     private Request request;
     @ManyToOne
     @JsonIgnore
