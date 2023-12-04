@@ -1,6 +1,7 @@
 package DavideSalzani.ImmobiliareProjectBE.request;
 
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.notification.Notification;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.CommonRequestEstate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -37,4 +38,7 @@ public class Request extends CommonRequestEstate {
     @OneToOne
     @JsonIgnore
     private Customer customer;
+    @ManyToMany(mappedBy = "requestsMatch")
+    @JsonIgnore
+    private List<Notification> notifications;
 }

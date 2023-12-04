@@ -1,14 +1,12 @@
 package DavideSalzani.ImmobiliareProjectBE.client;
 
-import DavideSalzani.ImmobiliareProjectBE.address.Address;
-import DavideSalzani.ImmobiliareProjectBE.client.payload.ChangeCustomerInfoDTO;
-import DavideSalzani.ImmobiliareProjectBE.client.payload.NewCustomerDTO;
+import DavideSalzani.ImmobiliareProjectBE.client.payloads.ChangeCustomerInfoDTO;
+import DavideSalzani.ImmobiliareProjectBE.client.payloads.NewCustomerDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.AlreadyExistException;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.NotFoundException;
 import DavideSalzani.ImmobiliareProjectBE.user.User;
 import DavideSalzani.ImmobiliareProjectBE.user.UserRepository;
-import DavideSalzani.ImmobiliareProjectBE.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

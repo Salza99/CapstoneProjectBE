@@ -2,6 +2,7 @@ package DavideSalzani.ImmobiliareProjectBE.estate;
 
 import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.notification.Notification;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.CommonRequestEstate;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.EnergyClass;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.TypeOfProperty;
@@ -11,7 +12,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -41,5 +44,8 @@ public class Estate extends CommonRequestEstate {
     @JoinColumn(name = "customer_id")
     private Customer customer;
     private String heating;
+    @ManyToMany(mappedBy = "estatesMatch")
+    @JsonIgnore
+    private List<Notification> notifications;
 
 }

@@ -1,4 +1,4 @@
-package DavideSalzani.ImmobiliareProjectBE.client.payload;
+package DavideSalzani.ImmobiliareProjectBE.client.payloads;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

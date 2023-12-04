@@ -1,11 +1,10 @@
-package DavideSalzani.ImmobiliareProjectBE.client.payload;
+package DavideSalzani.ImmobiliareProjectBE.client.payloads;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public record NewCustomerDTO(
         @NotEmpty(message = "il campo nome deve essere valorizzato")
