@@ -46,10 +46,10 @@ public class EstateService {
         Customer cFound = customerService.findSingleCustomer(body.customerId());
 
         Estate e = new Estate();
-        e.setSurface(Integer.parseInt(body.surface()));
-        e.setNumberOfFloors(Integer.parseInt(body.numberOfFloors()));
-        e.setNumberOfBathrooms(Integer.parseInt(body.numberOfBathrooms()));
-        e.setParkingSpace(Integer.parseInt(body.parkingSpace()));
+        e.setSurface(body.surface());
+        e.setNumberOfFloors(body.numberOfFloors());
+        e.setNumberOfBathrooms(body.numberOfBathrooms());
+        e.setParkingSpace(body.parkingSpace());
         e.setToRent(body.isToRent());
         e.setHabitability(body.habitability());
         for (String room: body.numberOfRooms()) {
@@ -64,10 +64,10 @@ public class EstateService {
         for (String otherCharacteristic: body.otherCharacteristics()) {
             e.getOtherCharacteristics().add(otherCharacteristic);
         }
-        e.setFloor(Integer.parseInt(body.floor()));
-        e.setYearOfConstruction(Integer.parseInt(body.yearOfConstruction()));
-        e.setCondominiumFees(Integer.parseInt(body.condominiumFees()));
-        e.setPrice(Long.parseLong(body.price()));
+        e.setFloor(body.floor());
+        e.setYearOfConstruction(body.yearOfConstruction());
+        e.setCondominiumFees(body.condominiumFees());
+        e.setPrice(body.price());
         e.setAvailability(true);
         e.setAddress(aFound);
         e.setCustomer(cFound);

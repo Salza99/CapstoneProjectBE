@@ -29,7 +29,7 @@ public class Customer {
     private String email;
     private Long phone;
     private LocalDate birthDay;
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "customer")
     private List<Estate> sellingProperties;
     @OneToOne
     private Request request;

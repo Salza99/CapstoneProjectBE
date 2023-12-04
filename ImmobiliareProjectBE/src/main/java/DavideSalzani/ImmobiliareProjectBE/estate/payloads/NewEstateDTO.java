@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.UUID;
 
 public record NewEstateDTO(
-        @NotEmpty(message = "il campo superfice non può essere lasciato vuoto")
-        String surface,
-        @NotEmpty(message = "il campo numero di piani non può essere lasciato vuoto")
-        String numberOfFloors,
-        @NotEmpty(message = "il campo numero di bagni non può essere lasciato vuoto")
-        String numberOfBathrooms,
-        @NotEmpty(message = "il campo numero posti auto non può essere lasciato vuoto")
-        String parkingSpace,
+        @NotNull(message = "il campo superfice non può essere lasciato vuoto")
+        long surface,
+        @NotNull(message = "il campo numero di piani non può essere lasciato vuoto")
+        int numberOfFloors,
+        @NotNull(message = "il campo numero di bagni non può essere lasciato vuoto")
+        int numberOfBathrooms,
+        @NotNull(message = "il campo numero posti auto non può essere lasciato vuoto")
+        int parkingSpace,
         boolean isToRent,
         boolean habitability,
         List<String> numberOfRooms,
@@ -33,12 +33,12 @@ public record NewEstateDTO(
         @ValidTypeOfProperty(enumClass = TypeOfProperty.class, message = "devi inserire un tipo di proprietà valido")
         String typeOfProperty,
         List<String> otherCharacteristics,
-        String floor,
-        @NotEmpty(message = "il campo anno di costruzione non può essere lasciato vuoto")
-        String yearOfConstruction,
-        String condominiumFees,
-        @NotEmpty(message = "devi inserire un prezzo per l'immobile")
-        String price,
+        int floor,
+        @NotNull(message = "il campo anno di costruzione non può essere lasciato vuoto")
+        int yearOfConstruction,
+        int condominiumFees,
+        @NotNull(message = "devi inserire un prezzo per l'immobile")
+        long price,
         @NotNull(message = "devi inserire la posizione dell'immobile")
         long addressId,
         @NotNull(message = "devi inserire a chi appartiene l'immobile")

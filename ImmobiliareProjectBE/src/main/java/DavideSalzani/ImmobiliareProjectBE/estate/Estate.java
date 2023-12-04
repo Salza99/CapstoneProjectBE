@@ -22,7 +22,7 @@ public class Estate extends CommonRequestEstate {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private int floor;
-    private int surface;
+    private long surface;
     private int numberOfFloors;
     private int numberOfBathrooms;
     private int parkingSpace;
@@ -34,6 +34,7 @@ public class Estate extends CommonRequestEstate {
     private Address address;
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "customer_id")
     private Customer customer;
     private String heating;
 

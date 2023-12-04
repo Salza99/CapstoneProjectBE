@@ -1,9 +1,9 @@
 package DavideSalzani.ImmobiliareProjectBE.address;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +26,7 @@ public class Address {
     private int postalCode;
     private String street;
     private int houseNumber;
-
+    @OneToOne
+    @JsonIgnore
+    private Estate estate;
 }
