@@ -65,43 +65,56 @@ public class AuthService {
                 "  <head>\n" +
                 "    <meta charset=\"UTF-8\" />\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n" +
-                "    <link\n" +
-                "      href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\"\n" +
-                "      rel=\"stylesheet\"\n" +
-                "      integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\"\n" +
-                "      crossorigin=\"anonymous\"\n" +
-                "    />\n" +
                 "    <title>Document</title>\n" +
+                "    <style>\n" +
+                "      .nav {\n" +
+                "        margin-bottom: 1.2rem;\n" +
+                "      }\n" +
+                "      img {\n" +
+                "        width: 100%;\n" +
+                "        height: 100%;\n" +
+                "      }\n" +
+                "      .card {\n" +
+                "        border: 1px solid black;\n" +
+                "        padding: 1rem;\n" +
+                "        margin: 0 20%;\n" +
+                "      }\n" +
+                "      p,\n" +
+                "      h1,\n" +
+                "      h2,\n" +
+                "      h3,\n" +
+                "      h4,\n" +
+                "      h5,\n" +
+                "      h6 {\n" +
+                "        font-family: \"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif;\n" +
+                "      }\n" +
+                "      p {\n" +
+                "        font-size: 1.2rem;\n" +
+                "      }\n" +
+                "    </style>\n" +
                 "  </head>\n" +
                 "  <body>\n" +
-                "    <div class=\"container\">\n" +
-                "      <div class=\"card mb-3\">\n" +
-                "        <img\n" +
-                "          src=\"https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\n" +
-                "          class=\"card-img-top\"\n" +
-                "          alt=\"...\"\n" +
-                "        />\n" +
-                "        <div class=\"card-body\">\n" +
-                "          <h5 class=\"card-title mb-3\">La sua nuova password è stata generata.</h5>\n" +
-                "          <h6 class=\"card-subtitle mb-3 text-body-secondary\">Benvenuto/a " + body.name() + " " + body.surname() + "</h6>\n" +
-                "          <p class=\"card-text\">\n" +
+                "    <div class=\"nav\">\n" +
+                "      <img src=\"\" alt=\"logo\" />\n" +
+                "    </div>\n" +
+                "    <div class=\"card\">\n" +
+                "      <div>\n" +
+                "        <div>\n" +
+                "          <h3>Benvenuto/a "+ body.name() + " " + body.surname() +"</h3>\n" +
+                "          <p>\n" +
                 "            Questa mail è stata generata automaticamente in seguito al suo inserimento sul portale\n" +
-                "            <span class=\"fw-bold\">PropManageHub</span>, la password che le è stata assegnata è univoca per Lei.\n" +
+                "            <span style=\"font-weight: bold\">PropManageHub</span>, la password che le è stata assegnata è univoca per\n" +
+                "            Lei.\n" +
                 "          </p>\n" +
-                "          <p class=\"card-text\">La sua nuova password generata è: <span class=\"fw-bold\">"+ newPassword + "</span></p>\n" +
-                "          <p class=\"card-text\">\n" +
+                "          <p>La sua nuova password generata è: <span style=\"font-weight: bold\">" + newPassword + "</span></p>\n" +
+                "          <p>\n" +
                 "            La preghiamo di non rispondere a questa mail nè di condividerne con nessuno il suo contenuto, se ha ricevuto\n" +
                 "            questa email per sbaglio la preghiamo di eliminarla.\n" +
                 "          </p>\n" +
-                "          <p class=\"card-text\">La ringraziamo per l'attenzione, Team PropManageHub.</p>\n" +
+                "          <p>La ringraziamo per l'attenzione, Team PropManageHub.</p>\n" +
                 "        </div>\n" +
                 "      </div>\n" +
                 "    </div>\n" +
-                "    <script\n" +
-                "      src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"\n" +
-                "      integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\"\n" +
-                "      crossorigin=\"anonymous\"\n" +
-                "    ></script>\n" +
                 "  </body>\n" +
                 "</html>";
 

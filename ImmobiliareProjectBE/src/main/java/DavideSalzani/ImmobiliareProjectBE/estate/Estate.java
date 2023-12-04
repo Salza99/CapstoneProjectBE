@@ -3,7 +3,8 @@ package DavideSalzani.ImmobiliareProjectBE.estate;
 import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.CommonRequestEstate;
-import DavideSalzani.ImmobiliareProjectBE.supportClasses.Heating;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.EnergyClass;
+import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.TypeOfProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,13 @@ public class Estate extends CommonRequestEstate {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private int floor;
+    private long surface;
+    private int numberOfFloors;
+    private int numberOfBathrooms;
+    private int parkingSpace;
     private int yearOfConstruction;
-    private int condominiumFees;
+    private EnergyClass energyClass;
+    private TypeOfProperty typeOfProperty;
     private long price;
     private String description;
     private boolean availability;
@@ -32,7 +38,8 @@ public class Estate extends CommonRequestEstate {
     private Address address;
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "customer_id")
     private Customer customer;
-    @ManyToOne
-    private Heating heating;
+    private String heating;
+
 }
