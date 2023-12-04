@@ -19,7 +19,6 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/register")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public User saveUser(@RequestBody @Validated NewUserDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
@@ -29,7 +28,6 @@ public class AuthController {
         }
     }
     @PostMapping("/login")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     public UserSuccessLoginDTO login(@RequestBody UserLoginDTO body) throws Exception {
         return new UserSuccessLoginDTO(authService.authenticateUser(body));
     }
