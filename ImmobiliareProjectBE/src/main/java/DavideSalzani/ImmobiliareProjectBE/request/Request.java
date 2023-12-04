@@ -28,7 +28,12 @@ public class Request extends CommonRequestEstate {
     private List<String> regions;
     private List<String> cities;
     private List<String> hamlets;
-    private ArrayList<Long> rangeOfPrice = new ArrayList<>(2);
+    private List<Double> surface= new ArrayList<>(2);
+    private List<Integer> numberOfFloors= new ArrayList<>(2);
+    private List<Integer> numberOfBathrooms= new ArrayList<>(2);
+    private List<Integer> parkingSpace = new ArrayList<>(2);
+    private List<Long> rangeOfPrice = new ArrayList<>(2);
+    private String note;
     @OneToOne
     @JsonIgnore
     private Customer customer;

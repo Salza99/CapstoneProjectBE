@@ -13,12 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 public abstract class CommonRequestEstate {
-    private int surface;
-    private int numberOfFloors;
-    private int numberOfBathrooms;
-    private int parkingSpace;
+
     private boolean isToRent;
     private boolean habitability;
+    private double condominiumFees;
     private List<String> numberOfRooms = new ArrayList<>();
     private EnergyClass energyClass;
     private Condition condition;

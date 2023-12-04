@@ -4,11 +4,11 @@ import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.address.payloads.NewAddressDTO;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.*;
-import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.characteristicsValidator.ValidOtherCharacteristics;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.conditionValidator.ValidCondition;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.energyValidator.ValidEnergyClass;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Validator.typeOfPropertyValidator.ValidTypeOfProperty;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -39,8 +39,9 @@ public record NewEstateDTO(
         String condominiumFees,
         @NotEmpty(message = "devi inserire un prezzo per l'immobile")
         String price,
-        boolean availability,
+        @NotNull(message = "devi inserire la posizione dell'immobile")
         long addressId,
+        @NotNull(message = "devi inserire a chi appartiene l'immobile")
         UUID customerId,
         @NotEmpty(message = "il campo riscaldamento non può essere lasciato vuoto")
         String heating

@@ -68,7 +68,7 @@ public class EstateService {
         e.setYearOfConstruction(Integer.parseInt(body.yearOfConstruction()));
         e.setCondominiumFees(Integer.parseInt(body.condominiumFees()));
         e.setPrice(Long.parseLong(body.price()));
-        e.setAvailability(body.availability());
+        e.setAvailability(true);
         e.setAddress(aFound);
         e.setCustomer(cFound);
         e.setHeating(body.heating());
