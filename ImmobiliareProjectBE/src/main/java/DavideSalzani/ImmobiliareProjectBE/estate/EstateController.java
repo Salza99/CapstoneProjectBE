@@ -1,6 +1,7 @@
 package DavideSalzani.ImmobiliareProjectBE.estate;
 
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.estate.payloads.ChangeEstateInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.estate.payloads.NewEstateDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +41,21 @@ public class EstateController {
     public Estate getSingleEstate(UUID id){
         return estateService.getById(id);
     }
+    @PutMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public Estate changeEstateInfo(@PathVariable("id") UUID id, @RequestBody @Validated ChangeEstateInfoDTO body, BindingResult validation){
+        if (validation.hasErrors() ) {
+            throw new BadRequestException(validation.getAllErrors());
+        }else {
+            return estateService.updateEstateInfo(id,body);
+        }
+    }
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEstate(@PathVariable("id") UUID id){
+        estateService.deleteEstate(id);
+    }
 }
+

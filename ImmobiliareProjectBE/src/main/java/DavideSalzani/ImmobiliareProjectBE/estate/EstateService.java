@@ -4,6 +4,7 @@ import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.address.AddressService;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.client.CustomerService;
+import DavideSalzani.ImmobiliareProjectBE.estate.payloads.ChangeEstateInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.estate.payloads.NewEstateDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.NotFoundException;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.*;
@@ -74,5 +75,29 @@ public class EstateService {
         e.setHeating(body.heating());
         estateRepo.save(e);
         return e;
+    }
+    public Estate updateEstateInfo(UUID id, ChangeEstateInfoDTO body){
+        Estate toUpdate= this.getById(id);
+        toUpdate.setSurface(body.surface());
+        toUpdate.setNumberOfBathrooms(body.numberOfBathrooms());
+        toUpdate.setParkingSpace(body.parkingSpace());
+        toUpdate.setToRent(body.isToRent());
+        toUpdate.setHabitability(body.habitability());
+        EnergyClass e = EnergyClass.valueOf(body.energyClass());
+        toUpdate.setEnergyClass(e);
+        Condition c = Condition.valueOf(body.condition());
+        toUpdate.setCondition(c);
+        TypeOfProperty t = TypeOfProperty.valueOf(body.typeOfProperty());
+        toUpdate.setTypeOfProperty(t);
+        toUpdate.setOtherCharacteristics(body.otherCharacteristics());
+        toUpdate.setCondominiumFees(body.condominiumFees());
+        toUpdate.setPrice(body.price());
+        toUpdate.setHeating(body.heating());
+        estateRepo.save(toUpdate);
+        return toUpdate;
+    }
+    public void deleteEstate(UUID id){
+        Estate toRemove = this.getById(id);
+        estateRepo.delete(toRemove);
     }
 }
