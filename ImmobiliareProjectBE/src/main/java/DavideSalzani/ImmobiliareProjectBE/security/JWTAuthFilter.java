@@ -30,7 +30,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new UnauthorizedException("Athorization Bearer token not found.");
+            throw new UnauthorizedException("Authorization Bearer token not found.");
         } else {
             String token = authHeader.substring(7);
             jwtTools.verifyToken(token);

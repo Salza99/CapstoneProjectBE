@@ -1,6 +1,8 @@
 package DavideSalzani.ImmobiliareProjectBE.exceptions;
 
+import DavideSalzani.ImmobiliareProjectBE.exceptions.exceptionsPayloads.ErrorsListResponseDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.exceptionsPayloads.ErrorsResponseDTO;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -10,10 +12,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestControllerAdvice
 public class ExceptionHandler {
+    @org.springframework.web.bind.annotation.ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsListResponseDTO handleBadRequestList(BadRequestException ex){
+        if (ex.getErrorList() != null) {
+            List<String> errorsList = ex.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+            return new ErrorsListResponseDTO(LocalDate.now(), errorsList);
+        } else {
+            return new ErrorsListResponseDTO(LocalDate.now(), new ArrayList<>());
+        }
+    }
     @org.springframework.web.bind.annotation.ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorsResponseDTO handleUnauthorized(UnauthorizedException e) {

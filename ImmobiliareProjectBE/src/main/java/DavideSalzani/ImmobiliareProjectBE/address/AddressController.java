@@ -18,7 +18,7 @@ public class AddressController {
     AddressService addressService;
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public Address createAddress(@RequestBody @Validated NewAddressDTO body, BindingResult validation){
         if (validation.hasErrors()){
@@ -28,13 +28,13 @@ public class AddressController {
         }
     }
     @GetMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<Address> getAll(){
         return addressService.findAll();
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public Address getSingleAddress(long id){
         return addressService.findById(id);

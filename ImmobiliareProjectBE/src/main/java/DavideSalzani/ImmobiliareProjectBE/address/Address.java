@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String region;
     private String city;
@@ -27,12 +27,4 @@ public class Address {
     private String street;
     private int houseNumber;
 
-    public Address(String region, String city, String hamlet, int postalCode, String street, int houseNumber) {
-        this.region = region;
-        this.city = city;
-        this.hamlet = hamlet;
-        this.postalCode = postalCode;
-        this.street = street;
-        this.houseNumber = houseNumber;
-    }
 }

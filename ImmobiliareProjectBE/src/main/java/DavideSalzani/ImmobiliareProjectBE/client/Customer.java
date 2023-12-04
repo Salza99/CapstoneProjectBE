@@ -35,11 +35,4 @@ public class Customer {
     @JsonIgnore
     private User followedByUser;
 
-    public Customer(String name, String surname, String email, Long phone, LocalDate birthDay) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phone = phone;
-        this.birthDay = birthDay;
-    }
 }

@@ -1,6 +1,5 @@
 package DavideSalzani.ImmobiliareProjectBE.client;
 
-import DavideSalzani.ImmobiliareProjectBE.address.Address;
 import DavideSalzani.ImmobiliareProjectBE.client.payload.NewCustomerDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +18,24 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @PostMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @ResponseStatus(HttpStatus.OK)
-    public Customer createCustomer(@RequestBody @Validated NewCustomerDTO body, BindingResult validation){
+    @PostMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Customer createCustomer( @PathVariable("id") UUID userId, @RequestBody @Validated NewCustomerDTO body, BindingResult validation){
         if (validation.hasErrors()){
             throw new BadRequestException(validation.getAllErrors());
         }else {
-            return customerService.createNewCustomer(body);
+            return customerService.createNewCustomer(body, userId);
         }
     }
     @GetMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<Customer> getAll(){
         return customerService.getAllCustomer();
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public Customer getSingleAddress(UUID id){
         return customerService.findSingleCustomer(id);

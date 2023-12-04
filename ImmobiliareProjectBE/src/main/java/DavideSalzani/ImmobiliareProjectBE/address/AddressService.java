@@ -28,6 +28,7 @@ public class AddressService {
             a.setStreet(body.street());
             a.setPostalCode(body.postalCode());
             a.setHouseNumber(body.houseNumber());
+            addressRepo.save(a);
             return a;
         }else {
             throw new AlreadyExistException("Indirizzo ");

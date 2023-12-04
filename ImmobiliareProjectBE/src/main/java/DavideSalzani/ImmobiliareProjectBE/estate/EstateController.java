@@ -21,7 +21,7 @@ public class EstateController {
 
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public Estate createNewEstate(@RequestBody @Validated NewEstateDTO body, BindingResult validation){
         if (validation.hasErrors()) {

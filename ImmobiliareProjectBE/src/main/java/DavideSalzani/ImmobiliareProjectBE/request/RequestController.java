@@ -20,7 +20,7 @@ public class RequestController {
     RequestService requestService;
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public Request createNewRequest(@RequestBody @Validated NewRequestDTO body, BindingResult validation){
         if (validation.hasErrors()) {
@@ -30,13 +30,13 @@ public class RequestController {
         }
     }
     @GetMapping("")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<Request> getAll(){
         return requestService.getAll();
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public Request getSingleRequest(UUID id){
         return requestService.getById(id);
