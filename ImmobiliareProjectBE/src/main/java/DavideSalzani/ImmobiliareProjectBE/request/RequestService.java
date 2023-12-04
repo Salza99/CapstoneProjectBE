@@ -11,6 +11,10 @@ import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.Condition;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.EnergyClass;
 import DavideSalzani.ImmobiliareProjectBE.supportClasses.supportEnum.TypeOfProperty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +31,10 @@ public class RequestService {
     }
     public Request getById(long id){
         return requestRepo.findById(id).orElseThrow(() -> new NotFoundException("richiesta "));
+    }
+    public Page<Request> getRequests(int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return requestRepo.findAll(pageable);
     }
     public Request createNewRequest(NewRequestDTO body){
         Request r = new Request();

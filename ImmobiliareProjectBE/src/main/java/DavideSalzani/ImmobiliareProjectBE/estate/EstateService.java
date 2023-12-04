@@ -42,6 +42,10 @@ public class EstateService {
         Estate found = this.getById(id);
         estateRepo.delete(found);
     }
+    public Page<Estate> getEstates(int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return estateRepo.findAll(pageable);
+    }
     public Estate createEstate(NewEstateDTO body){
         Address aFound = addressService.findById(body.addressId());
         Customer cFound = customerService.findSingleCustomer(body.customerId());

@@ -5,6 +5,7 @@ import DavideSalzani.ImmobiliareProjectBE.estate.payloads.ChangeEstateInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.estate.payloads.NewEstateDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,13 @@ public class EstateController {
         }
     }
     @GetMapping("")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
+    public Page<Estate> getUsers(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
+                                   @RequestParam(defaultValue = "id") String orderBy) {
+        return estateService.getEstates(page, size, orderBy);
+    }
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<Estate> getAll(){
         return estateService.getAllEstate();

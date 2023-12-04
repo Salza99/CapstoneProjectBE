@@ -10,6 +10,10 @@ import DavideSalzani.ImmobiliareProjectBE.user.User;
 import DavideSalzani.ImmobiliareProjectBE.user.UserRepository;
 import DavideSalzani.ImmobiliareProjectBE.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +30,10 @@ public class CustomerService {
     }
     public List<Customer> getAllCustomer(){
         return customerRepo.findAll();
+    }
+    public Page<Customer> getCustomers(int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return customerRepo.findAll(pageable);
     }
 
     public Customer createNewCustomer(NewCustomerDTO body, UUID userId){
@@ -50,6 +58,7 @@ public class CustomerService {
             }
         }
     }
+
     public Customer changeInfo(UUID id, ChangeCustomerInfoDTO body) {
         Customer toUpdate = this.findSingleCustomer(id);
         toUpdate.setEmail(body.email());
