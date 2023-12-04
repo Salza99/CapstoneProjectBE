@@ -5,6 +5,7 @@ import DavideSalzani.ImmobiliareProjectBE.estate.payloads.NewEstateDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class EstateController {
 
 
     @PostMapping("")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public Estate createNewEstate(@RequestBody @Validated NewEstateDTO body, BindingResult validation){
         if (validation.hasErrors()) {
@@ -35,7 +37,7 @@ public class EstateController {
     }
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Estate getSingleAddress(UUID id){
+    public Estate getSingleEstate(UUID id){
         return estateService.getById(id);
     }
 }

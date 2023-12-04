@@ -5,6 +5,7 @@ import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
 import DavideSalzani.ImmobiliareProjectBE.request.payloads.NewRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class RequestController {
     RequestService requestService;
 
     @PostMapping("")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public Request createNewRequest(@RequestBody @Validated NewRequestDTO body, BindingResult validation){
         if (validation.hasErrors()) {
@@ -28,13 +30,15 @@ public class RequestController {
         }
     }
     @GetMapping("")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<Request> getAll(){
         return requestService.getAll();
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public Request getSingleAddress(UUID id){
+    public Request getSingleRequest(UUID id){
         return requestService.getById(id);
     }
 }
