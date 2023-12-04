@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,6 +35,7 @@ public class Customer {
     private Request request;
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "user_id")
     private User followedByUser;
 
 }
