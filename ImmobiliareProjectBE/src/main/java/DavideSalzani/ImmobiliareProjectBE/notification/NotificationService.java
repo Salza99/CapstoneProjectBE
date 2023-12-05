@@ -27,14 +27,37 @@ public class NotificationService {
     public Notification createNotificationByRequest(NewNotificationByRequestDTO body){
         List<CommonRequestEstate> result = requestToEstateMatchingAlgorithm(body);
         Notification n = new Notification();
-        if (result.size() != 1){
-            n.setMessage("La richiesta appena inserita ha trovato riscontro in " + result.size() + " immobili.");
+        int size = result.size() - 1;
+        if (result.size() > 2){
+            n.setMessage("La richiesta appena inserita ha trovato riscontro in " + size + " immobili.");
+        }else if (result.size() == 2){
+            n.setMessage("La richiesta appena inserita ha trovato riscontro in " + size + " immobile.");
         }else {
-            n.setMessage("La richiesta appena inserita ha trovato riscontro in " + result.size() + " immobile.");
+            n.setMessage("La richiesta appena inserita non ha trovato alcun riscontro");
         }
         n.getRequestsMatch().add((Request) result.get(0));
         for (int i = 1; i < result.size(); i++) {
             n.getEstatesMatch().add((Estate) result.get(i));
+        }
+
+        n.setTimeStamp(LocalDate.now());
+        notificationRepo.save(n);
+        return n;
+    }
+    public Notification createNotificationByEstate(NewNotificationByEstateDTO body){
+        List<CommonRequestEstate> result = estateToRequestMatchingAlgorithm(body);
+        Notification n = new Notification();
+        int size = result.size() - 1;
+        if (result.size() > 2){
+            n.setMessage("L'immobile' appena inserito ha trovato riscontro in " + size + " richieste.");
+        }else if(result.size() == 2){
+            n.setMessage("L'immobile appena inserito ha trovato riscontro in " + size + " richiesta.");
+        }else {
+            n.setMessage("L'immobile appena inserito non ha trovato alcun riscontro");
+        }
+        n.getEstatesMatch().add((Estate) result.get(0));
+        for (int i = 1; i < result.size(); i++) {
+            n.getRequestsMatch().add((Request) result.get(i));
         }
 
         n.setTimeStamp(LocalDate.now());
