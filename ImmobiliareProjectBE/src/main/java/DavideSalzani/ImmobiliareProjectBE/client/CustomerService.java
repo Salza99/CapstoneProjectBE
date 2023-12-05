@@ -49,9 +49,9 @@ public class CustomerService {
                 c.setSurname(body.surname());
                 c.setPhone(Long.parseLong(body.phone()));
                 c.setFollowedByUser(u);
-
                 customerRepo.save(c);
-
+                u.getCustomersFollowed().add(c);
+                userRepo.save(u);
                 return c;
             }
         }

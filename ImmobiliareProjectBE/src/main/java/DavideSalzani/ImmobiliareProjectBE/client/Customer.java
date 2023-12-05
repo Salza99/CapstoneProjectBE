@@ -13,6 +13,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Entity
@@ -31,7 +32,7 @@ public class Customer {
     private LocalDate birthDay;
     @OneToMany(mappedBy = "customer")
     @Cascade(CascadeType.ALL)
-    private List<Estate> sellingProperties;
+    private List<Estate> sellingProperties = new ArrayList<>();
     @OneToOne
     @Cascade(CascadeType.ALL)
     private Request request;

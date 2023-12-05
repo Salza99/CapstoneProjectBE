@@ -1,8 +1,10 @@
 package DavideSalzani.ImmobiliareProjectBE.estate;
 
 import DavideSalzani.ImmobiliareProjectBE.address.Address;
+import DavideSalzani.ImmobiliareProjectBE.address.AddressRepository;
 import DavideSalzani.ImmobiliareProjectBE.address.AddressService;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.client.CustomerRepository;
 import DavideSalzani.ImmobiliareProjectBE.client.CustomerService;
 import DavideSalzani.ImmobiliareProjectBE.estate.payloads.ChangeEstateInfoDTO;
 import DavideSalzani.ImmobiliareProjectBE.estate.payloads.NewEstateDTO;
@@ -25,9 +27,9 @@ public class EstateService {
     @Autowired
     EstateRepository estateRepo;
     @Autowired
-    AddressService addressService;
+    AddressRepository addressRepo;
     @Autowired
-    CustomerService customerService;
+    CustomerRepository customerRepo;
 
     public Estate getById(UUID id){
         return estateRepo.findById(id).orElseThrow(() -> new NotFoundException("Proprietà "));
@@ -48,8 +50,8 @@ public class EstateService {
         return estateRepo.findAll(pageable);
     }
     public Estate createEstate(NewEstateDTO body){
-        Address aFound = addressService.findById(body.addressId());
-        Customer cFound = customerService.findSingleCustomer(body.customerId());
+        Address aFound = addressRepo.findById(body.addressId()).orElseThrow(() -> new NotFoundException("indirizzo "));
+        Customer cFound = customerRepo.findById(body.customerId()).orElseThrow(() -> new NotFoundException("cliente "));
         if (aFound.getEstate() == null){
             Estate e = new Estate();
             e.setSurface(body.surface());
@@ -79,6 +81,10 @@ public class EstateService {
             e.setCustomer(cFound);
             e.setHeating(body.heating());
             estateRepo.save(e);
+            aFound.setEstate(e);
+            addressRepo.save(aFound);
+            cFound.getSellingProperties().add(e);
+            customerRepo.save(cFound);
             return e;
         }else {
             throw new BadRequestException("l'indirizzo è già stato assegnato ad un'immobile");

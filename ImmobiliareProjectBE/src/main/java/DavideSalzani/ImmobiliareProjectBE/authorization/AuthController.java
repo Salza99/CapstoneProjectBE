@@ -20,15 +20,25 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public User saveUser(@RequestBody @Validated NewUserDTO body, BindingResult validation) {
+    public User saveSuperAdmin(@RequestBody @Validated NewUserDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
         } else {
-            return authService.save(body);
+            return authService.saveSuperAdmin(body);
         }
     }
     @PostMapping("/login")
     public UserSuccessLoginDTO login(@RequestBody UserLoginDTO body) throws Exception {
         return new UserSuccessLoginDTO(authService.authenticateUser(body));
+    }
+    @PostMapping("/register/admin")
+    @PreAuthorize("hasAuthority ('SUPER_ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public User saveAdmin(@RequestBody @Validated NewUserDTO body, BindingResult validation) {
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        } else {
+            return authService.saveAdmin(body);
+        }
     }
 }

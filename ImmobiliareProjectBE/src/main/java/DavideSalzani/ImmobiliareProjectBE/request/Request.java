@@ -33,6 +33,7 @@ public class Request extends CommonRequestEstate {
     private List<Double> surface= new ArrayList<>(2);
     private List<Integer> numberOfBathrooms= new ArrayList<>(2);
     private List<Integer> parkingSpace = new ArrayList<>(2);
+    @Enumerated(EnumType.STRING)
     private List<TypeOfProperty> typeOfProperty = new ArrayList<>();
     private long maximal;
     private String note;

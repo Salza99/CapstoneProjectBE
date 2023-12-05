@@ -1,6 +1,7 @@
 package DavideSalzani.ImmobiliareProjectBE.request;
 
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.client.CustomerRepository;
 import DavideSalzani.ImmobiliareProjectBE.client.CustomerService;
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
@@ -25,7 +26,7 @@ public class RequestService {
     @Autowired
     RequestRepository requestRepo;
     @Autowired
-    CustomerService customerService;
+    CustomerRepository customerRepo;
     public List<Request> getAll(){
         return requestRepo.findAll();
     }
@@ -38,7 +39,7 @@ public class RequestService {
     }
     public Request createNewRequest(NewRequestDTO body){
         Request r = new Request();
-        Customer found = customerService.findSingleCustomer(body.customerId());
+        Customer found = customerRepo.findById(body.customerId()).orElseThrow(() -> new NotFoundException("cliente "));
         if (found.getRequest() == null) {
             r.setSurface(body.surface());
             r.setNumberOfBathrooms(body.numberOfBathrooms());
@@ -61,6 +62,8 @@ public class RequestService {
             r.setNote(body.note());
             r.setCustomer(found);
             requestRepo.save(r);
+            found.setRequest(r);
+            customerRepo.save(found);
             return r;
         }else {
             throw new BadRequestException("il cliente possiede già una richiesta a suo carico, eliminare o aggiornare quest'ultima per poter continuare!");
