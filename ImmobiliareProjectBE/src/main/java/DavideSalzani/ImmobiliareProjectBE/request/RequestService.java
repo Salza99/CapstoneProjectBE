@@ -1,6 +1,7 @@
 package DavideSalzani.ImmobiliareProjectBE.request;
 
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
+import DavideSalzani.ImmobiliareProjectBE.client.CustomerRepository;
 import DavideSalzani.ImmobiliareProjectBE.client.CustomerService;
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
@@ -25,7 +26,7 @@ public class RequestService {
     @Autowired
     RequestRepository requestRepo;
     @Autowired
-    CustomerService customerService;
+    CustomerRepository customerRepo;
     public List<Request> getAll(){
         return requestRepo.findAll();
     }
@@ -38,7 +39,7 @@ public class RequestService {
     }
     public Request createNewRequest(NewRequestDTO body){
         Request r = new Request();
-        Customer found = customerService.findSingleCustomer(body.customerId());
+        Customer found = customerRepo.findById(body.customerId()).orElseThrow(() -> new NotFoundException("cliente "));
         if (found.getRequest() == null) {
             r.setSurface(body.surface());
             r.setNumberOfBathrooms(body.numberOfBathrooms());
@@ -48,16 +49,21 @@ public class RequestService {
             r.setHabitability(body.habitability());
             Condition c = Condition.valueOf(body.condition());
             r.setCondition(c);
-            r.setTypeOfProperty(body.typeOfProperty());
+            for (String s: body.typeOfProperty()) {
+                TypeOfProperty t = TypeOfProperty.valueOf(s);
+                r.getTypeOfProperty().add(t);
+            }
             r.setOtherCharacteristics(body.otherCharacteristics());
             r.setCondominiumFees(body.condominiumFees());
-            r.setRangeOfPrice(body.price());
+            r.setMaximal(body.price());
             r.setRegions(body.regions());
             r.setCities(body.cities());
             r.setHamlets(body.hamlets());
             r.setNote(body.note());
             r.setCustomer(found);
             requestRepo.save(r);
+            found.setRequest(r);
+            customerRepo.save(found);
             return r;
         }else {
             throw new BadRequestException("il cliente possiede già una richiesta a suo carico, eliminare o aggiornare quest'ultima per poter continuare!");
@@ -73,10 +79,13 @@ public class RequestService {
         toUpdate.setNumberOfRooms(body.numberOfRooms());
         Condition c = Condition.valueOf(body.condition());
         toUpdate.setCondition(c);
-        toUpdate.setTypeOfProperty(body.typeOfProperty());
+        for (String s: body.typeOfProperty()) {
+            TypeOfProperty t = TypeOfProperty.valueOf(s);
+            toUpdate.getTypeOfProperty().add(t);
+        }
         toUpdate.setOtherCharacteristics(body.otherCharacteristics());
         toUpdate.setCondominiumFees(body.condominiumFees());
-        toUpdate.setRangeOfPrice(body.price());
+        toUpdate.setMaximal(body.price());
         toUpdate.setRegions(body.regions());
         toUpdate.setCities(body.cities());
         toUpdate.setHamlets(body.hamlets());

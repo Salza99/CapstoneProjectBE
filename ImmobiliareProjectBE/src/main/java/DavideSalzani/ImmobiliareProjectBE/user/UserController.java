@@ -43,6 +43,7 @@ public class UserController {
         userService.delete(id);
     }
     @GetMapping("/me")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN') or hasAuthority('USER')")
     @ResponseStatus(HttpStatus.OK)
     public User getProfile(@AuthenticationPrincipal User currentUser) {
         return currentUser;
