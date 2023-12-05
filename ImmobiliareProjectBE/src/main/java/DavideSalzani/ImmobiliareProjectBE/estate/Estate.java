@@ -51,6 +51,7 @@ public class Estate extends CommonRequestEstate {
     private String heating;
     @ManyToMany(mappedBy = "estatesMatch")
     @JsonIgnore
+    @Cascade(CascadeType.ALL)
     private List<Notification> notifications;
 
 }
