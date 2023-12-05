@@ -48,10 +48,13 @@ public class RequestService {
             r.setHabitability(body.habitability());
             Condition c = Condition.valueOf(body.condition());
             r.setCondition(c);
-            r.setTypeOfProperty(body.typeOfProperty());
+            for (String s: body.typeOfProperty()) {
+                TypeOfProperty t = TypeOfProperty.valueOf(s);
+                r.getTypeOfProperty().add(t);
+            }
             r.setOtherCharacteristics(body.otherCharacteristics());
             r.setCondominiumFees(body.condominiumFees());
-            r.setRangeOfPrice(body.price());
+            r.setMaximal(body.price());
             r.setRegions(body.regions());
             r.setCities(body.cities());
             r.setHamlets(body.hamlets());
@@ -73,10 +76,13 @@ public class RequestService {
         toUpdate.setNumberOfRooms(body.numberOfRooms());
         Condition c = Condition.valueOf(body.condition());
         toUpdate.setCondition(c);
-        toUpdate.setTypeOfProperty(body.typeOfProperty());
+        for (String s: body.typeOfProperty()) {
+            TypeOfProperty t = TypeOfProperty.valueOf(s);
+            toUpdate.getTypeOfProperty().add(t);
+        }
         toUpdate.setOtherCharacteristics(body.otherCharacteristics());
         toUpdate.setCondominiumFees(body.condominiumFees());
-        toUpdate.setRangeOfPrice(body.price());
+        toUpdate.setMaximal(body.price());
         toUpdate.setRegions(body.regions());
         toUpdate.setCities(body.cities());
         toUpdate.setHamlets(body.hamlets());

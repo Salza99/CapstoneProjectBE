@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
@@ -32,12 +34,15 @@ public class Estate extends CommonRequestEstate {
     private int numberOfBathrooms;
     private int parkingSpace;
     private int yearOfConstruction;
+    @Enumerated(EnumType.STRING)
     private EnergyClass energyClass;
+    @Enumerated(EnumType.STRING)
     private TypeOfProperty typeOfProperty;
     private long price;
     private String description;
     private boolean availability;
     @OneToOne
+    @Cascade(CascadeType.ALL)
     private Address address;
     @ManyToOne
     @JsonIgnore

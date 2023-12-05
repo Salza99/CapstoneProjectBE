@@ -57,6 +57,9 @@ public class AuthService {
         userRepo.findByEmail(body.email()).ifPresent(a -> {
             throw new BadRequestException("l'email " + a.getEmail() + " è già stata usata");
         });
+        userRepo.findByUsername(body.username()).ifPresent(a -> {
+            throw new BadRequestException("l'username " + a.getUsername() + " è già stato usato");
+        });
         User user;
         String newPassword = generateRandomPassword(8);
         String encryptedPassword = bCrypt.encode(newPassword);

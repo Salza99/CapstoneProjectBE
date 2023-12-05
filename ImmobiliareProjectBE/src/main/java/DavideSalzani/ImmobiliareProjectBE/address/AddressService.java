@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -22,7 +23,12 @@ public class AddressService {
         return addressRepo.findAll();
     }
     public Address createAddress(NewAddressDTO body){
-        if (addressRepo.findByHouseNumber(body.houseNumber()) == null){
+        List<Address> checkIfAddressAlreadyExist = addressRepo.findByStreet(body.street()).stream()
+                .filter(address -> address.getHouseNumber() == body.houseNumber())
+                .filter(address -> Objects.equals(address.getHamlet(), body.hamlet()))
+                .filter(address -> Objects.equals(address.getCity(), body.city()))
+                .toList();
+        if (checkIfAddressAlreadyExist.isEmpty()){
             Address a = new Address();
             a.setRegion(body.region());
             a.setCity(body.city());

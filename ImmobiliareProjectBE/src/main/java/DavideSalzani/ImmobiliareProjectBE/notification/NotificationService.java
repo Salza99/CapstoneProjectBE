@@ -8,9 +8,9 @@ import DavideSalzani.ImmobiliareProjectBE.request.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class NotificationService {
@@ -21,52 +21,33 @@ public class NotificationService {
     @Autowired
     EstateService estateService;
 
-    private List<Estate> requestToEstateMatchingAlgorithm(NewNotificationByRequestDTO body){
-        Request toMatch = requestService.getById(body.requestId());
-        if (!toMatch.getRegions().isEmpty()) {
-            List<Estate> allEstate = estateService.getAllEstate();
-            List<Estate> matchedResultByRegion = new ArrayList<>(allEstate.stream().filter(estate -> toMatch.getRegions().stream().anyMatch(region -> estate.getAddress().getRegion().equals(region))).toList());
-            if (!matchedResultByRegion.isEmpty() && !toMatch.getCities().isEmpty()) {
-                List<Estate> matchedResultByCity = new ArrayList<>();
-                matchedResultByCity = matchedResultByRegion.stream().filter(estate -> toMatch.getCities().stream().anyMatch(city -> estate.getAddress().getCity().equals(city))).toList();
-                if (!matchedResultByCity.isEmpty() && !toMatch.getHamlets().isEmpty()) {
-                    List<Estate> matchedResultByHamlet = new ArrayList<>();
-                    matchedResultByHamlet = matchedResultByCity.stream().filter(estate -> toMatch.getHamlets().stream().anyMatch(hamlet -> estate.getAddress().getHamlet().equals(hamlet))).toList();
-                    if (!matchedResultByHamlet.isEmpty() && toMatch.getRangeOfPrice().size() == 2) {
-                        List<Estate> matchedResultByPrice = new ArrayList<>();
-                        matchedResultByPrice = matchedResultByHamlet.stream().filter(estate -> estate.getPrice() > toMatch.getRangeOfPrice().get(0) && estate.getPrice() < toMatch.getRangeOfPrice().get(1)).toList();
-                        return matchedResultByPrice;
-                    } else if (!matchedResultByHamlet.isEmpty() && toMatch.getRangeOfPrice().size() == 1) {
-                        List<Estate> matchedResultByPrice = new ArrayList<>();
-                        matchedResultByPrice = matchedResultByHamlet.stream().filter(estate -> estate.getPrice() <= toMatch.getRangeOfPrice().get(0)).toList();
-                        return matchedResultByPrice;
-                    } else {
-                        return matchedResultByHamlet;
-                    }
-                }else {
-                    if (!matchedResultByCity.isEmpty() && toMatch.getRangeOfPrice().size() == 2) {
-                        matchedResultByCity = matchedResultByCity.stream().filter(estate -> estate.getPrice() > toMatch.getRangeOfPrice().get(0) && estate.getPrice() < toMatch.getRangeOfPrice().get(1)).toList();
-                        return matchedResultByCity;
-                    } else if (!matchedResultByCity.isEmpty() && toMatch.getRangeOfPrice().size() == 1) {
-                        matchedResultByCity = matchedResultByCity.stream().filter(estate -> estate.getPrice() > toMatch.getRangeOfPrice().get(0)).toList();
-                        return matchedResultByCity;
-                            }else {
-                                return matchedResultByCity;
-                            }
-                }
-            }else {
-                if (!matchedResultByRegion.isEmpty() && toMatch.getRangeOfPrice().size() == 2) {
-                    matchedResultByRegion = matchedResultByRegion.stream().filter(estate -> estate.getPrice() > toMatch.getRangeOfPrice().get(0) && estate.getPrice() < toMatch.getRangeOfPrice().get(1)).toList();
-                    return matchedResultByRegion;
-                }else if (!matchedResultByRegion.isEmpty() && toMatch.getRangeOfPrice().size() == 1){
-                    matchedResultByRegion = matchedResultByRegion.stream().filter(estate -> estate.getPrice() > toMatch.getRangeOfPrice().get(0)).toList();
-                    return matchedResultByRegion;
-                }else {
-                    return matchedResultByRegion;
-                }
-            }
+    public Notification createNotificationByRequest(NewNotificationByRequestDTO body){
+        List<Estate> result = requestToEstateMatchingAlgorithm(body);
+        Notification n = new Notification();
+        if (result.size() != 1){
+            n.setMessage("La richiesta appena inserita ha trovato riscontro in " + result.size() + " immobili.");
         }else {
-            return new ArrayList<>();
+            n.setMessage("La richiesta appena inserita ha trovato riscontro in " + result.size() + " immobile.");
         }
+        n.setEstatesMatch(result);
+        n.setTimeStamp(LocalDate.now());
+        notificationRepo.save(n);
+        return n;
+    }
+
+    public List<Estate> requestToEstateMatchingAlgorithm(NewNotificationByRequestDTO body) {
+        Request toMatch = requestService.getById(body.requestId());
+        List<Estate> allEstate = estateService.getAllEstate();
+        List<Estate> matchedResult = allEstate.stream()
+                .filter(estate -> toMatch.getRegions().isEmpty() ||toMatch.getRegions().contains(estate.getAddress().getRegion()))
+                .filter(estate -> toMatch.getCities().isEmpty() || toMatch.getCities().contains(estate.getAddress().getCity()))
+                .filter(estate -> toMatch.getHamlets().isEmpty() || toMatch.getHamlets().contains(estate.getAddress().getHamlet()))
+                .filter(estate -> estate.getPrice() < toMatch.getMaximal())
+                .filter(estate -> toMatch.getTypeOfProperty().isEmpty() || toMatch.getTypeOfProperty().contains(estate.getTypeOfProperty()))
+                .filter(estate -> estate.getCondition().equals(toMatch.getCondition()))
+                .filter(estate -> estate.isToRent() == toMatch.isToRent())
+                .toList();
+
+        return matchedResult;
     }
 }
