@@ -69,69 +69,69 @@ public class NotificationService {
         List<CommonRequestEstate> result = new ArrayList<>();
         Request toMatch = requestService.getById(body.requestId());
         List<Estate> allEstate = estateService.getAllEstate();
-        List<Estate> matchedResult = new ArrayList<>(allEstate);
+        List<Estate> matchedResultByRegion = new ArrayList<>(allEstate);
         // Filter for Regions
-        matchedResult = matchedResult.stream()
+        matchedResultByRegion = matchedResultByRegion.stream()
                 .filter(estate -> toMatch.getRegions().isEmpty() || toMatch.getRegions().contains(estate.getAddress().getRegion()))
                 .toList();
-        if (matchedResult.isEmpty()) {
+        if (matchedResultByRegion.isEmpty()) {
             result.add(toMatch);
             result.addAll(allEstate);
             return result;
         }
-
+        // Filter for ToRent
+        List<Estate> matchedResultByRent = new ArrayList<>();
+        matchedResultByRent = matchedResultByRegion.stream()
+                .filter(estate -> estate.isToRent() == toMatch.isToRent())
+                .toList();
+        if (matchedResultByRent.isEmpty()) {
+            result.add(toMatch);
+            return result;
+        }
         // Filter for Cities
-        matchedResult = matchedResult.stream()
+        List<Estate> matchedResultByCity = new ArrayList<>();
+        matchedResultByCity = matchedResultByRent.stream()
                 .filter(estate -> toMatch.getCities().isEmpty() || toMatch.getCities().contains(estate.getAddress().getCity()))
                 .toList();
-        if (matchedResult.isEmpty()) {
+        if (matchedResultByCity.isEmpty()) {
             result.add(toMatch);
-            result.addAll(allEstate);
+            result.addAll(matchedResultByRent);
+            return result;
+        }
+        // Filter for Price
+        List<Estate> matchedResultByPrice = new ArrayList<>();
+        matchedResultByPrice = matchedResultByCity.stream()
+                .filter(estate -> estate.getPrice() < toMatch.getMaximal())
+                .toList();
+        if (matchedResultByPrice.isEmpty()) {
+            result.add(toMatch);
+            result.addAll(matchedResultByCity);
             return result;
         }
 
         // Filter for Hamlets
-        matchedResult = matchedResult.stream()
+        List<Estate> matchedResultByHamlet = new ArrayList<>();
+        matchedResultByHamlet = matchedResultByPrice.stream()
                 .filter(estate -> toMatch.getHamlets().isEmpty() || toMatch.getHamlets().contains(estate.getAddress().getHamlet()))
                 .toList();
-        if (matchedResult.isEmpty()) {
+        if (matchedResultByHamlet.isEmpty()) {
             result.add(toMatch);
-            result.addAll(allEstate);
-            return result;
-        }
-
-        // Filter for Price
-        matchedResult = matchedResult.stream()
-                .filter(estate -> estate.getPrice() < toMatch.getMaximal())
-                .toList();
-        if (matchedResult.isEmpty()) {
-            result.add(toMatch);
-            result.addAll(allEstate);
+            result.addAll(matchedResultByPrice);
             return result;
         }
 
         // Filter for TypeOfProperty
-        matchedResult = matchedResult.stream()
+        List<Estate> matchedResultByTypeOfProperty = new ArrayList<>();
+        matchedResultByTypeOfProperty = matchedResultByPrice.stream()
                 .filter(estate -> toMatch.getTypeOfProperty().isEmpty() || toMatch.getTypeOfProperty().contains(estate.getTypeOfProperty()))
                 .toList();
-        if (matchedResult.isEmpty()) {
+        if (matchedResultByTypeOfProperty.isEmpty()) {
             result.add(toMatch);
-            result.addAll(allEstate);
+            result.addAll(matchedResultByPrice);
             return result;
         }
-
-        // Filter for ToRent
-        matchedResult = matchedResult.stream()
-                .filter(estate -> estate.isToRent() == toMatch.isToRent())
-                .toList();
-        if (matchedResult.isEmpty()) {
-            result.add(toMatch);
-            result.addAll(allEstate);
-            return result;
-        }
-
         result.add(toMatch);
-        result.addAll(allEstate);
+        result.addAll(matchedResultByTypeOfProperty);
         return result;
     }
     public List<CommonRequestEstate> estateToRequestMatchingAlgorithm(NewNotificationByEstateDTO body) {
@@ -149,56 +149,59 @@ public class NotificationService {
             return result;
         }
 
+        // Filter for ToRent
+        List<Request> matchedResultByRent = new ArrayList<>();
+        matchedResultByRent = matchedResult.stream()
+                .filter(request -> request.isToRent() == toMatch.isToRent())
+                .toList();
+        if (matchedResultByRent.isEmpty()) {
+            result.add(toMatch);
+            return result;
+        }
         // Filter for Cities
-        matchedResult = matchedResult.stream()
+        List<Request> matchedResultByCities = new ArrayList<>();
+        matchedResultByCities = matchedResultByRent.stream()
                 .filter(request -> request.getRegions().isEmpty() || request.getCities().contains(toMatch.getAddress().getCity()))
                 .toList();
-        if (matchedResult.isEmpty()) {
+        if (matchedResultByCities.isEmpty()) {
             result.add(toMatch);
-            result.addAll(matchedResult);
+            result.addAll(matchedResultByRent);
+            return result;
+        }
+        // Filter for Price
+        List<Request> matchedResultByPrice = new ArrayList<>();
+        matchedResultByPrice = matchedResultByCities.stream()
+                .filter(request -> request.getMaximal() < toMatch.getPrice())
+                .toList();
+        if (matchedResultByPrice.isEmpty()) {
+            result.add(toMatch);
+            result.addAll(matchedResultByCities);
             return result;
         }
 
         // Filter for Hamlets
-        matchedResult = matchedResult.stream()
+        List<Request> matchedResultByHamlets = new ArrayList<>();
+        matchedResultByHamlets = matchedResultByPrice.stream()
                 .filter(request ->request.getHamlets().isEmpty() || request.getHamlets().contains(toMatch.getAddress().getHamlet()))
                 .toList();
-        if (matchedResult.isEmpty()) {
+        if (matchedResultByHamlets.isEmpty()) {
             result.add(toMatch);
-            result.addAll(matchedResult);
-            return result;
-        }
-
-        // Filter for Price
-        matchedResult = matchedResult.stream()
-                .filter(request -> request.getMaximal() < toMatch.getPrice())
-                .toList();
-        if (matchedResult.isEmpty()) {
-            result.add(toMatch);
-            result.addAll(matchedResult);
+            result.addAll(matchedResultByPrice);
             return result;
         }
 
         // Filter for TypeOfProperty
-        matchedResult = matchedResult.stream()
+        List<Request> matchedResultByTypeOfProperty = new ArrayList<>();
+        matchedResultByTypeOfProperty = matchedResultByHamlets.stream()
                 .filter(request -> request.getTypeOfProperty().isEmpty()  || request.getTypeOfProperty().contains(toMatch.getTypeOfProperty()))
                 .toList();
-        if (matchedResult.isEmpty()) {
+        if (matchedResultByTypeOfProperty.isEmpty()) {
             result.add(toMatch);
-            result.addAll(matchedResult);
-            return result;
-        }
-        // Filter for ToRent
-        matchedResult = matchedResult.stream()
-                .filter(request -> request.isToRent() == toMatch.isToRent())
-                .toList();
-        if (matchedResult.isEmpty()) {
-            result.add(toMatch);
-            result.addAll(matchedResult);
+            result.addAll(matchedResultByHamlets);
             return result;
         }
         result.add(toMatch);
-        result.addAll(matchedResult);
+        result.addAll(matchedResultByTypeOfProperty);
         return result;
     }
 }
