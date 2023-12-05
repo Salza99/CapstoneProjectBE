@@ -25,9 +25,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Request extends CommonRequestEstate {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     private List<String> regions;
     private List<String> cities;
     private List<String> hamlets;

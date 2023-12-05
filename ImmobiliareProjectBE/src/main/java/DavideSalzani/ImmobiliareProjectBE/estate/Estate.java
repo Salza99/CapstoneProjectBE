@@ -25,9 +25,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Estate extends CommonRequestEstate {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
     private int floor;
     private long surface;
     private int numberOfFloors;
