@@ -46,7 +46,7 @@ public class CustomerController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public Customer getSingleAddress(UUID id){
+    public Customer getSingleAddress(@PathVariable("id") UUID id){
         return customerService.findSingleCustomer(id);
     }
     @PutMapping("/{id}")

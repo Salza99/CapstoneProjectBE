@@ -31,7 +31,7 @@ public class EstateService {
     @Autowired
     CustomerRepository customerRepo;
 
-    public Estate getById(UUID id){
+    public Estate getById(long id){
         return estateRepo.findById(id).orElseThrow(() -> new NotFoundException("Proprietà "));
     }
     public Page<Estate> getEstate(int page, int size, String orderBy) {
@@ -41,7 +41,7 @@ public class EstateService {
     public List<Estate> getAllEstate() {
         return estateRepo.findAll();
     }
-    public void delete(UUID id) {
+    public void delete(long id) {
         Estate found = this.getById(id);
         estateRepo.delete(found);
     }
@@ -91,7 +91,7 @@ public class EstateService {
         }
 
     }
-    public Estate updateEstateInfo(UUID id, ChangeEstateInfoDTO body){
+    public Estate updateEstateInfo(long id, ChangeEstateInfoDTO body){
         Estate toUpdate= this.getById(id);
         toUpdate.setSurface(body.surface());
         toUpdate.setNumberOfBathrooms(body.numberOfBathrooms());
@@ -111,7 +111,7 @@ public class EstateService {
         estateRepo.save(toUpdate);
         return toUpdate;
     }
-    public void deleteEstate(UUID id){
+    public void deleteEstate(long id){
         Estate toRemove = this.getById(id);
         estateRepo.delete(toRemove);
     }

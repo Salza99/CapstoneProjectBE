@@ -47,7 +47,7 @@ public class RequestController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public Request getSingleRequest(long id){
+    public Request getSingleRequest(@PathVariable("id") long id){
         return requestService.getById(id);
     }
     @PutMapping("/{id}")

@@ -46,13 +46,13 @@ public class EstateController {
     }
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Estate getSingleEstate(UUID id){
+    public Estate getSingleEstate(@PathVariable("id") long id){
         return estateService.getById(id);
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public Estate changeEstateInfo(@PathVariable("id") UUID id, @RequestBody @Validated ChangeEstateInfoDTO body, BindingResult validation){
+    public Estate changeEstateInfo(@PathVariable("id") long id, @RequestBody @Validated ChangeEstateInfoDTO body, BindingResult validation){
         if (validation.hasErrors() ) {
             throw new BadRequestException(validation.getAllErrors());
         }else {
@@ -62,7 +62,7 @@ public class EstateController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEstate(@PathVariable("id") UUID id){
+    public void deleteEstate(@PathVariable("id") long id){
         estateService.deleteEstate(id);
     }
 }
