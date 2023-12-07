@@ -8,12 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record ChangeRequestInfoDTO(
-        @NotEmpty(message = "inserisci almeno un valore per la superfice")
-        List<Double> surface,
+        @NotNull(message = "inserisci almeno un valore per la superfice")
+        double surface,
 
-        List<Integer> numberOfBathrooms,
+        int numberOfBathrooms,
 
-        List<Integer> parkingSpace,
+        int parkingSpace,
         @NotNull(message = "devi dichiarare se la proprietà è in vendità o in affitto")
         boolean isToRent,
         @NotNull(message = "devi dichiarare se la proprietà è abitabile o no!")

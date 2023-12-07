@@ -28,9 +28,9 @@ public class Request extends CommonRequestEstate {
     private List<String> regions;
     private List<String> cities;
     private List<String> hamlets;
-    private List<Double> surface= new ArrayList<>(2);
-    private List<Integer> numberOfBathrooms= new ArrayList<>(2);
-    private List<Integer> parkingSpace = new ArrayList<>(2);
+    private double surface;
+    private int numberOfBathrooms;
+    private int parkingSpace;
     @Enumerated(EnumType.STRING)
     private List<TypeOfProperty> typeOfProperty = new ArrayList<>();
     private long maximal;

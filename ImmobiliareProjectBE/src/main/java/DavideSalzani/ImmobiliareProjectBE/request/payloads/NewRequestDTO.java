@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.UUID;
 
 public record NewRequestDTO(
-        @NotEmpty(message = "inserisci almeno un valore per la superfice")
-        List<Double> surface,
+        @NotNull(message = "inserisci almeno un valore per la superfice")
+        double surface,
 
-        List<Integer> numberOfBathrooms,
+        int numberOfBathrooms,
 
-        List<Integer> parkingSpace,
+        int parkingSpace,
         @NotNull(message = "devi dichiarare se la proprietà è in vendità o in affitto")
         boolean isToRent,
         @NotNull(message = "devi dichiarare se la proprietà è abitabile o no!")
