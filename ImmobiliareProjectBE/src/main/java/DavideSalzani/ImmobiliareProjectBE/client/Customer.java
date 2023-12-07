@@ -37,7 +37,6 @@ public class Customer {
     @Cascade(CascadeType.ALL)
     private Request request;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User followedByUser;
 

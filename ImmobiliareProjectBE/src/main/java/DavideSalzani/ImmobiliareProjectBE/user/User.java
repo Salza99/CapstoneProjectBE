@@ -3,6 +3,7 @@ package DavideSalzani.ImmobiliareProjectBE.user;
 import DavideSalzani.ImmobiliareProjectBE.client.Customer;
 import DavideSalzani.ImmobiliareProjectBE.estate.Estate;
 import DavideSalzani.ImmobiliareProjectBE.request.Request;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,8 +35,10 @@ public class User implements UserDetails {
     private Long phone;
     private LocalDate birthDay;
     private LocalDate insertDate;
+    @Enumerated(EnumType.STRING)
     private UserRole role;
     @OneToMany(mappedBy = "followedByUser")
+    @JsonIgnore
     private List<Customer> customersFollowed = new ArrayList<>();
 
     @Override
