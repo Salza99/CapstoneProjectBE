@@ -31,7 +31,7 @@ public class AuthController {
     public UserSuccessLoginDTO login(@RequestBody UserLoginDTO body) throws Exception {
         return new UserSuccessLoginDTO(authService.authenticateUser(body));
     }
-    @PostMapping("/register/admin")
+    @PostMapping("/registerAdmin")
     @PreAuthorize("hasAuthority ('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public User saveAdmin(@RequestBody @Validated NewUserDTO body, BindingResult validation) {

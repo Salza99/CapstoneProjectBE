@@ -30,7 +30,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new UnauthorizedException("Authorization Bearer token not found.");
+            throw new UnauthorizedException("token di autorizzazione non trovato");
         } else {
             String token = authHeader.substring(7);
             jwtTools.verifyToken(token);
@@ -46,6 +46,10 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+        String servletPath = request.getServletPath();
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+
+        return pathMatcher.match("/auth/register", servletPath) ||
+                pathMatcher.match("/auth/login", servletPath);
     }
 }
