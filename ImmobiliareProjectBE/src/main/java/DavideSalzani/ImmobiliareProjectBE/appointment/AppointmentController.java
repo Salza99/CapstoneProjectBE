@@ -52,7 +52,7 @@ public class AppointmentController {
         }
         appointmentService.changeAppointmentStatus(status, id);
     }
-    @PatchMapping("/status/{id}")
+    @PatchMapping("/description/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     public void changeDescription(@PathVariable("id") long id, @RequestBody @Validated PatchDescriptionDTO description, BindingResult validation){
@@ -61,7 +61,7 @@ public class AppointmentController {
         }
         appointmentService.changeDescription(id, description);
     }
-    @PatchMapping("/priority/{id}")
+    @PatchMapping("/notes/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     public void changeNotes(@PathVariable("id") long id,@RequestBody String notes){
