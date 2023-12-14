@@ -2,12 +2,17 @@ package DavideSalzani.ImmobiliareProjectBE.address;
 
 import DavideSalzani.ImmobiliareProjectBE.address.payloads.NewAddressDTO;
 import DavideSalzani.ImmobiliareProjectBE.exceptions.BadRequestException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -16,7 +21,8 @@ import java.util.List;
 public class AddressController {
     @Autowired
     AddressService addressService;
-
+@Value("${spring.geo.regions}")
+    private String geoNamesUrl;
     @PostMapping("")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -38,6 +44,14 @@ public class AddressController {
     @ResponseStatus(HttpStatus.OK)
     public Address getSingleAddress(long id){
         return addressService.findById(id);
+    }
+    @GetMapping("/geoRegions")
+    public ResponseEntity<?> getGeoNamesData() throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        String jsonData = restTemplate.getForObject(geoNamesUrl, String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Object data = objectMapper.readValue(jsonData, Object.class);
+        return ResponseEntity.ok(data);
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")

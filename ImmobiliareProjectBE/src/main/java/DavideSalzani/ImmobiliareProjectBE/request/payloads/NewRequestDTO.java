@@ -31,7 +31,7 @@ public record NewRequestDTO(
         List<String> otherCharacteristics,
         Double condominiumFees,
         @NotNull(message = "devi inserire un valore di massimale spesa")
-        Long price,
+        Long maximal,
         @NotEmpty(message = "devi inserire almeno una regione")
         List<String> regions,
         @NotEmpty(message = "devi inserire almeno una città")

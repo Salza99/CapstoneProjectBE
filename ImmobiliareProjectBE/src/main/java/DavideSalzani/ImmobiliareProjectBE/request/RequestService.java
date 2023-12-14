@@ -55,7 +55,7 @@ public class RequestService {
             }
             r.setOtherCharacteristics(body.otherCharacteristics());
             r.setCondominiumFees(body.condominiumFees());
-            r.setMaximal(body.price());
+            r.setMaximal(body.maximal());
             r.setRegions(body.regions());
             r.setCities(body.cities());
             r.setHamlets(body.hamlets());
