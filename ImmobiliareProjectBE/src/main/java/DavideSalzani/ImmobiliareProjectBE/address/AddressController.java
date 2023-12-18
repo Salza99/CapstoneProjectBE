@@ -21,8 +21,9 @@ import java.util.List;
 public class AddressController {
     @Autowired
     AddressService addressService;
-@Value("${spring.geo.regions}")
-    private String geoNamesUrl;
+    @Value("${spring.geo.username}")
+    private String geoUsername;
+
     @PostMapping("")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPER_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,10 +46,18 @@ public class AddressController {
     public Address getSingleAddress(long id){
         return addressService.findById(id);
     }
-    @GetMapping("/geoRegions")
-    public ResponseEntity<?> getGeoNamesData() throws JsonProcessingException {
+    @GetMapping("/geoSearch")
+    public ResponseEntity<?> getGeoNamesDataSearch(@RequestParam("search") String searched ) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
-        String jsonData = restTemplate.getForObject(geoNamesUrl, String.class);
+        String jsonData = restTemplate.getForObject("http://api.geonames.org/postalCodeSearchJSON?&username=" + geoUsername + "&placename=" + searched + "&country=IT", String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Object data = objectMapper.readValue(jsonData, Object.class);
+        return ResponseEntity.ok(data);
+    }
+    @GetMapping("/geoHamletByRange")
+    public ResponseEntity<?> getGeoNamesDataHamletByProvince(@RequestParam("lng") String longitudine, @RequestParam("lat") String latitudine  ) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        String jsonData = restTemplate.getForObject("http://api.geonames.org/findNearbyPlaceNameJSON?lat="+ latitudine + "&lng="+ longitudine +"&radius=10&username=" + geoUsername, String.class);
         ObjectMapper objectMapper = new ObjectMapper();
         Object data = objectMapper.readValue(jsonData, Object.class);
         return ResponseEntity.ok(data);

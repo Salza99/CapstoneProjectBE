@@ -27,7 +27,6 @@ import java.util.UUID;
 public class Request extends CommonRequestEstate {
     private List<String> regions;
     private List<String> cities;
-    private List<String> hamlets;
     private double surface;
     private int numberOfBathrooms;
     private int parkingSpace;

@@ -58,7 +58,6 @@ public class RequestService {
             r.setMaximal(body.maximal());
             r.setRegions(body.regions());
             r.setCities(body.cities());
-            r.setHamlets(body.hamlets());
             r.setNote(body.note());
             r.setCustomer(found);
             requestRepo.save(r);
@@ -88,7 +87,6 @@ public class RequestService {
         toUpdate.setMaximal(body.price());
         toUpdate.setRegions(body.regions());
         toUpdate.setCities(body.cities());
-        toUpdate.setHamlets(body.hamlets());
         toUpdate.setNote(body.note());
         requestRepo.save(toUpdate);
         return toUpdate;

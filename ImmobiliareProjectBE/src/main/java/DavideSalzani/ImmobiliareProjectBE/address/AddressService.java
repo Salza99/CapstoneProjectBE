@@ -25,14 +25,12 @@ public class AddressService {
     public Address createAddress(NewAddressDTO body){
         List<Address> checkIfAddressAlreadyExist = addressRepo.findByStreet(body.street()).stream()
                 .filter(address -> address.getHouseNumber() == body.houseNumber())
-                .filter(address -> Objects.equals(address.getHamlet(), body.hamlet()))
                 .filter(address -> Objects.equals(address.getCity(), body.city()))
                 .toList();
         if (checkIfAddressAlreadyExist.isEmpty()){
             Address a = new Address();
             a.setRegion(body.region());
             a.setCity(body.city());
-            a.setHamlet(body.hamlet());
             a.setStreet(body.street());
             a.setPostalCode(body.postalCode());
             a.setHouseNumber(body.houseNumber());

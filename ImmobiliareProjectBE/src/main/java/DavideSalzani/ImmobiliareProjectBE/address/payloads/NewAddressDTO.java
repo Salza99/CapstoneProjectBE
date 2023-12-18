@@ -8,8 +8,6 @@ public record NewAddressDTO(
         String region,
         @NotEmpty(message = "il campo città deve essere valorizzato")
         String city,
-        @NotEmpty(message = "il campo paese deve essere valorizzato")
-        String hamlet,
         @NotEmpty(message = "il campo via deve essere valorizzato")
         String street,
         @NotNull(message = "il campo codice postale deve essere valorizzato")

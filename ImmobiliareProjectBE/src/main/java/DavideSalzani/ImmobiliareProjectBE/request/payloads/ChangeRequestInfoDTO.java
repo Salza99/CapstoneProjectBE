@@ -31,7 +31,6 @@ public record ChangeRequestInfoDTO(
         List<String> regions,
         @NotEmpty(message = "devi inserire almeno una città")
         List<String> cities,
-        List<String> hamlets,
         String note
 ) {
 }

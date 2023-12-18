@@ -109,17 +109,6 @@ public class NotificationService {
             return result;
         }
 
-        // Filter for Hamlets
-        List<Estate> matchedResultByHamlet = new ArrayList<>();
-        matchedResultByHamlet = matchedResultByPrice.stream()
-                .filter(estate -> toMatch.getHamlets().isEmpty() || toMatch.getHamlets().contains(estate.getAddress().getHamlet()))
-                .toList();
-        if (matchedResultByHamlet.isEmpty()) {
-            result.add(toMatch);
-            result.addAll(matchedResultByPrice);
-            return result;
-        }
-
         // Filter for TypeOfProperty
         List<Estate> matchedResultByTypeOfProperty = new ArrayList<>();
         matchedResultByTypeOfProperty = matchedResultByPrice.stream()
@@ -179,25 +168,16 @@ public class NotificationService {
             return result;
         }
 
-        // Filter for Hamlets
-        List<Request> matchedResultByHamlets = new ArrayList<>();
-        matchedResultByHamlets = matchedResultByPrice.stream()
-                .filter(request ->request.getHamlets().isEmpty() || request.getHamlets().contains(toMatch.getAddress().getHamlet()))
-                .toList();
-        if (matchedResultByHamlets.isEmpty()) {
-            result.add(toMatch);
-            result.addAll(matchedResultByPrice);
-            return result;
-        }
+
 
         // Filter for TypeOfProperty
         List<Request> matchedResultByTypeOfProperty = new ArrayList<>();
-        matchedResultByTypeOfProperty = matchedResultByHamlets.stream()
+        matchedResultByTypeOfProperty = matchedResultByCities.stream()
                 .filter(request -> request.getTypeOfProperty().isEmpty()  || request.getTypeOfProperty().contains(toMatch.getTypeOfProperty()))
                 .toList();
         if (matchedResultByTypeOfProperty.isEmpty()) {
             result.add(toMatch);
-            result.addAll(matchedResultByHamlets);
+            result.addAll(matchedResultByCities);
             return result;
         }
         result.add(toMatch);

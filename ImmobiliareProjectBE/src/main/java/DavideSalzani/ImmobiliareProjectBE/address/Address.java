@@ -24,7 +24,6 @@ public class Address {
     private long id;
     private String region;
     private String city;
-    private String hamlet;
     private int postalCode;
     private String street;
     private int houseNumber;
