@@ -30,6 +30,7 @@ public class Customer {
     private String email;
     private Long phone;
     private LocalDate birthDay;
+    private LocalDate insertDate;
     @OneToMany(mappedBy = "customer")
     @Cascade(CascadeType.ALL)
     private List<Estate> sellingProperties = new ArrayList<>();

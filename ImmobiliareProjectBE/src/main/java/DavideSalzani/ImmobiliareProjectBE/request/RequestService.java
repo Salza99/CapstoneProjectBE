@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,6 +46,7 @@ public class RequestService {
             r.setNumberOfBathrooms(body.numberOfBathrooms());
             r.setNumberOfRooms(body.numberOfRooms());
             r.setParkingSpace(body.parkingSpace());
+            r.setInsertDate(LocalDate.now());
             r.setToRent(body.isToRent());
             r.setHabitability(body.habitability());
             Condition c = Condition.valueOf(body.condition());

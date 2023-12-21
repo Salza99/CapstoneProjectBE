@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +60,7 @@ public class EstateService {
             e.setNumberOfBathrooms(body.numberOfBathrooms());
             e.setParkingSpace(body.parkingSpace());
             e.setToRent(body.isToRent());
+            e.setInsertDate(LocalDate.now());
             e.setHabitability(body.habitability());
             for (String room: body.numberOfRooms()) {
                 e.getNumberOfRooms().add(room);

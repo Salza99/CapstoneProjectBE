@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,6 @@ public abstract class CommonRequestEstate {
     private List<String> numberOfRooms = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private Condition condition;
-
-    private List<String> otherCharacteristics;
+    private LocalDate insertDate;
+    private List<String> otherCharacteristics = new ArrayList<>();
 }

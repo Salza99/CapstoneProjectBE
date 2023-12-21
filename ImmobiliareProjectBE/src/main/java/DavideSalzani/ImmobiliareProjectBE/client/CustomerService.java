@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,6 +49,7 @@ public class CustomerService {
                 c.setName(body.name());
                 c.setSurname(body.surname());
                 c.setPhone(Long.parseLong(body.phone()));
+                c.setInsertDate(LocalDate.now());
                 c.setFollowedByUser(u);
                 customerRepo.save(c);
                 u.getCustomersFollowed().add(c);
