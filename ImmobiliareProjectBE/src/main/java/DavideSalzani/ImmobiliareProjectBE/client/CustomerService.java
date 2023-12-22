@@ -63,7 +63,7 @@ public class CustomerService {
         Customer toUpdate = this.findSingleCustomer(id);
         toUpdate.setEmail(body.email());
         toUpdate.setPhone(Long.parseLong(body.phone()));
-        toUpdate.setBirthDay(body.birthdate());
+        toUpdate.setBirthDay(body.birthDay());
         customerRepo.save(toUpdate);
         return toUpdate;
     }

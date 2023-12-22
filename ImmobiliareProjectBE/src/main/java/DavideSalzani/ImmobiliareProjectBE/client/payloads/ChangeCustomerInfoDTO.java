@@ -13,6 +13,6 @@ public record ChangeCustomerInfoDTO(
         @NotEmpty(message = "il campo telefono deve essere valorizzato")
         @Pattern(regexp = "^\\+?\\d{1,3}(\\s*\\d){7,}$", message = "inserisci un numero di telefono valido!")
         String phone,
-        LocalDate birthdate
+        LocalDate birthDay
 ) {
 }
