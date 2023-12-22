@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,10 +81,12 @@ public class RequestService {
         toUpdate.setNumberOfRooms(body.numberOfRooms());
         Condition c = Condition.valueOf(body.condition());
         toUpdate.setCondition(c);
+        List<TypeOfProperty> typeToUpdate = new ArrayList<>();
         for (String s: body.typeOfProperty()) {
             TypeOfProperty t = TypeOfProperty.valueOf(s);
-            toUpdate.getTypeOfProperty().add(t);
+            typeToUpdate.add(t);
         }
+        toUpdate.setTypeOfProperty(typeToUpdate);
         toUpdate.setOtherCharacteristics(body.otherCharacteristics());
         toUpdate.setCondominiumFees(body.condominiumFees());
         toUpdate.setMaximal(body.price());
