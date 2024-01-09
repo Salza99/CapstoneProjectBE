@@ -89,7 +89,7 @@ public class RequestService {
         toUpdate.setTypeOfProperty(typeToUpdate);
         toUpdate.setOtherCharacteristics(body.otherCharacteristics());
         toUpdate.setCondominiumFees(body.condominiumFees());
-        toUpdate.setMaximal(body.price());
+        toUpdate.setMaximal(body.maximal());
         toUpdate.setRegions(body.regions());
         toUpdate.setCities(body.cities());
         toUpdate.setNote(body.note());
